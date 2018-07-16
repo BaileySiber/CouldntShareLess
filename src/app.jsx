@@ -7,13 +7,13 @@ import Doc from './doc';
 export default class App extends React.Component {
   render() {
     return (
-      <MuiThemeProvider>
+      <div>
         <AppBar
           title="Title of the doc to edit"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
         />
         <Doc />
-      </MuiThemeProvider>
+      </div>
     );
   }
 }
