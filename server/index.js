@@ -178,10 +178,11 @@ app.post('/save', function(req, res){
 })
 
 //takes docId
-app.post('/getDocInfo', function(req, res){
-  let docId = req.body.docId;
+app.get('/getDocInfo', function(req, res){
+  let docId = req.query.docId;
 
   Document.findById(docId)
+  .populate('owner', `username`)
   .then(result=> {
     res.json({"document": result});
   }).catch(err=> {
