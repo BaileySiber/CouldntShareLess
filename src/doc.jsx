@@ -7,6 +7,8 @@ import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+
 
 
 const customStyleMap = {
@@ -129,7 +131,7 @@ export default class Doc extends React.Component {
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
         />
-        <Drawer open={this.state.showEditors}>
+        <Drawer open={this.state.showEditors} width='17%'>
           <MenuItem>Owner: </MenuItem>
           <MenuItem>  {this.state.owner}</MenuItem>
           <MenuItem>Collaborators: </MenuItem>
@@ -142,25 +144,29 @@ export default class Doc extends React.Component {
         </div>
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
           <div style={{ flex: '1 0 25%' }}>
-
-            <button onMouseDown={e => this.onBoldClick(e)}>B</button>
-            <button onMouseDown={e => this.onItalicClick(e)}>I</button>
-            <button onMouseDown={e => this.onUnderlineClick(e)}>U</button>
-
-
-            <select onChange={e => this.toggleFontSize(e.target.value)}>
-              {options(['12px', '24px', '36px', '50px', '72px'])}
-            </select>
-
-            <select onChange={e => this.toggleColor(e.target.value)}>
-              {options(['green', 'blue', 'red', 'purple', 'orange', 'black'])}
-            </select>
-
-            <button onMouseDown={e => this.toggleAlignment(e, "left")}> Left </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "center")}> Center </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "right")}> Right </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "unordered-list-item")}>Unordered List</button>
-            <button onMouseDown={e => this.toggleAlignment(e, "ordered-list-item")}>Ordered List</button>
+            <Toolbar style={{ textAlign: 'center', backgroundColor: '#53BEEC', height: '35px' }}>
+              <ToolbarGroup>
+                <ToolbarSeparator />
+                <button onMouseDown={e => this.onBoldClick(e)}>B</button>
+                <button onMouseDown={e => this.onItalicClick(e)}>I</button>
+                <button onMouseDown={e => this.onUnderlineClick(e)}>U</button>
+                <ToolbarSeparator />
+              <select onChange={e => this.toggleFontSize(e.target.value)}>
+                {options(['12px', '24px', '36px', '50px', '72px'])}
+              </select>
+              <ToolbarSeparator />
+              <select onChange={e => this.toggleColor(e.target.value)}>
+                {options(['green', 'blue', 'red', 'purple', 'orange', 'black'])}
+              </select>
+              <ToolbarSeparator />
+                <button onMouseDown={e => this.toggleAlignment(e, "left")}> Left </button>
+                <button onMouseDown={e => this.toggleAlignment(e, "center")}> Center </button>
+                <button onMouseDown={e => this.toggleAlignment(e, "right")}> Right </button>
+                <ToolbarSeparator />
+                <button onMouseDown={e => this.toggleAlignment(e, "unordered-list-item")}>Unordered List</button>
+                <button onMouseDown={e => this.toggleAlignment(e, "ordered-list-item")}>Ordered List</button>
+              </ToolbarGroup>
+            </Toolbar>
           </div>
 
           <div style={{
