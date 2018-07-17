@@ -24,7 +24,6 @@ export default class CreateDoc extends React.Component {
   }
 
   createDoc() {
-
   }
 
   render() {
