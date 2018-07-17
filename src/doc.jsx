@@ -68,7 +68,7 @@ export default class Doc extends React.Component {
     super(props);
     this.state = {
       editorState: this.props.content || EditorState.createEmpty(),
-      title: 'Untitled',
+      title: "",
       owner: 'Owner',
       collaborators: [],
       showEditors: false,
@@ -149,8 +149,8 @@ export default class Doc extends React.Component {
           {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>
-        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20' }}>
-          <input style={{width: '50%', fontSize: '25', border: 'none', textAlign: 'center'}}onChange={(e) => this.setState({title:e.target.value})}
+        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <input placeholder="Untitled" style={{width: '50%', fontSize: '25px', border: 'none', textAlign: 'center'}}onChange={(e) => this.setState({title:e.target.value})}
             value={this.state.title} />
         </div>
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>

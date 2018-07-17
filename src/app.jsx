@@ -12,17 +12,22 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currPage: "login",
-      userId: null
+      currPage: "doc",
+      userId: null,
+      docId: null
     }
   }
 
-  navigate = (page) => {
-    this.setState({currPage: page})
-  }
-
-  updatedocId = (id) => {
-    this.setState({docId: id})
+  navigate = (page, userId, docId) => {
+    if (userId) {
+      this.setState({userId: userId, currPage: page})
+    }
+    else if (docId) {
+      this.setState({docId: docId, currPage: page})
+    }
+    else {
+      this.setState({currPage: page})
+    }
   }
 
   onLogin = (username, password) => {
@@ -61,11 +66,11 @@ export default class App extends React.Component {
           {this.state.currPage === "register" ?
           <Register navigate = {this.navigate} /> : null }
           {this.state.currPage === "main" ?
-          <Main navigate = {this.navigate} /> : null }
+          <Main userId = {this.state.userId} navigate = {this.navigate} /> : null }
           {this.state.currPage === "doc" ?
-          <Doc navigate = {this.navigate} /> : null }
+          <Doc userId = {this.state.userId} docId = {this.state.docId} navigate = {this.navigate} /> : null }
           {this.state.currPage === "newDoc" ?
-          <NewDoc navigate = {this.navigate} /> : null }
+          <NewDoc userId = {this.state.userId} navigate = {this.navigate} /> : null }
         </div>
       );
     }
