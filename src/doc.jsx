@@ -62,6 +62,7 @@ export default class Doc extends React.Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
+      title: 'Doc title',
     };
     this.onChange = editorState => this.setState({ editorState });
   }
@@ -108,7 +109,7 @@ export default class Doc extends React.Component {
 
     return (
       <div>
-        <h1>Doc Title</h1>
+        <h1>{this.state.title}</h1>
 
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
           <div style={{ flex: '1 0 25%' }}>
