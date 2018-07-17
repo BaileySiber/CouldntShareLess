@@ -31,7 +31,7 @@ class Register extends React.Component {
 
 
   onRegister = () => {
-  	fetch (URL + '/register' , {
+  	fetch ('http://localhost:1337/register' , {
   		method: 'POST',
   		headers: {
         'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ class Register extends React.Component {
         console.log('sucess registering')
   			this.props.navigate("login")
   		}
-  	})
+  	}).catch(err => console.log(err))
   }
 
   render() {

@@ -51,7 +51,7 @@ class Login extends React.Component {
 			</div>
 			<br/>
 			<div>
-				<button onClick={() => this.props.onLogin()} style={{
+				<button onClick={() => this.props.onLogin(this.state.usn, this.state.password)} style={{
 					backgroundColor: '#095997',
 					paddingTop: '5px',
 					paddingBottom: '5px',

@@ -4,8 +4,8 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const style = {
-  height: '70%',
-  width: '50%',
+  height: '80%',
+  width: '70%',
   margin: 20,
   textAlign: 'center',
   justifyContent: 'center',
