@@ -68,9 +68,9 @@ export default class Doc extends React.Component {
     super(props);
     this.state = {
       editorState: this.props.content || EditorState.createEmpty(),
-      title: this.props.title || 'Untitled',
-      owner: this.props.owner || 'Owner',
-      collaborators: this.props.collaborators || [],
+      title: 'Untitled',
+      owner: 'Owner',
+      collaborators: [],
       showEditors: false,
     };
     this.onChange = editorState => this.setState({ editorState });
@@ -115,6 +115,17 @@ export default class Doc extends React.Component {
   showEditors() {
     console.log('drawbar')
     this.setState({ showEditors: !this.state.showEditors })
+  }
+
+  componentDidMount(){
+    fetch("/getDocInfo?docId=" + this.props.docId)
+    .then((res) => res.json())
+    .then((json) => this.setState({
+      editorState:EditorState.createWithContent(json.document.content),
+      title: json.document.title,
+      owner: json.document.owner.username,
+      collaborators: json.document.collaboratorList
+    }))
   }
 
   render() {
