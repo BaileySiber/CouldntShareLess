@@ -18,7 +18,7 @@ export default class Main extends React.Component {
   }
   add(){
     //when you click, navigate to newDoc component
-    this.props.navigate("createDoc")
+    this.props.navigate("newDoc")
   }
 
   render(){
