@@ -22,23 +22,6 @@ class Login extends React.Component {
 		})
 	}
 
-	onLogin = (e) => {
-		fetch (URL + '/login' , {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				usn: this.state.usn,
-				password: this.state.password
-			})
-		}).then((res) => {
-			if (res.status === 200) {
-				console.log('found user')
-			}
-		})
-
-	}
 
 	onRegister = () => {
 		this.props.navigate("register")
@@ -68,7 +51,7 @@ class Login extends React.Component {
 			</div>
 			<br/>
 			<div>
-				<button onClick={() => this.onLogin()} style={{
+				<button onClick={() => this.props.onLogin()} style={{
 					backgroundColor: '#095997',
 					paddingTop: '5px',
 					paddingBottom: '5px',
