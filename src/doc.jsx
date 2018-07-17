@@ -31,6 +31,10 @@ const blockStyle = (block) => {
     return 'align-center';
     case 'right':
     return 'align-right';
+    case 'unordered-list-item':
+    return 'unordered';
+    case 'ordered-list-item':
+    return 'ordered';
     default:
     return null;
   }
@@ -86,8 +90,8 @@ export default class Doc extends React.Component {
     this.onChange(newEditorState);
   }
 
-  toggleAlignment(e, align) {
-    const newEditorState = RichUtils.toggleBlockType(this.state.editorState, align)
+  toggleAlignment(e, blockType) {
+    const newEditorState = RichUtils.toggleBlockType(this.state.editorState, blockType)
     this.onChange(newEditorState)
   }
 
@@ -106,9 +110,9 @@ export default class Doc extends React.Component {
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
           <div style={{ flex: '1 0 25%' }}>
 
-            <button onMouseDown={e => this.onBoldClick(e)}>BOLD</button>
-            <button onMouseDown={e => this.onItalicClick(e)}>ITALICS</button>
-            <button onMouseDown={e => this.onUnderlineClick(e)}>UNDERLINE</button>
+            <button onMouseDown={e => this.onBoldClick(e)}>B</button>
+            <button onMouseDown={e => this.onItalicClick(e)}>I</button>
+            <button onMouseDown={e => this.onUnderlineClick(e)}>U</button>
 
 
             <select onChange={e => this.toggleFontSize(e.target.value)}>
@@ -119,10 +123,11 @@ export default class Doc extends React.Component {
               {options(['green', 'blue', 'red', 'purple', 'orange'])}
             </select>
 
-            <button onMouseDown={e => this.toggleAlignment(e, "right")}> Align right </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "left")}> Align left </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "center")}> Align center </button>
-
+            <button onMouseDown={e => this.toggleAlignment(e, "left")}> Align Left </button>
+            <button onMouseDown={e => this.toggleAlignment(e, "center")}> Align Center </button>
+            <button onMouseDown={e => this.toggleAlignment(e, "right")}> Align Right </button>
+            <button onMouseDown={e => this.toggleAlignment(e, "unordered-list-item")}>Unordered List</button>
+            <button onMouseDown={e => this.toggleAlignment(e, "ordered-list-item")}>Ordered List</button>
           </div>
 
           <div style={{ flex: '1 0 25%' }}>
