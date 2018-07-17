@@ -6,7 +6,8 @@ class Register extends React.Component {
     super()
     this.state = {
       usn: "",
-      password: ""
+      password: "",
+      repeat: ""
     }
   }
 
@@ -22,6 +23,12 @@ class Register extends React.Component {
     })
   }
 
+  onRepeatChange = (e) => {
+    this.setState({
+      repeat: event.target.value
+    })
+  }
+
 
   onRegister = () => {
   	fetch (URL + '/register' , {
@@ -30,11 +37,13 @@ class Register extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        usn: this.state.usn,
-        password: this.state.password
+        username: this.state.usn,
+        password: this.state.password,
+        passwordRepeat: this.state.repeat
       })
   	}).then((res) => {
   		if (res.status === 200) {
+        console.log('sucess registering')
   			this.props.navigate("login")
   		}
   	})
@@ -59,6 +68,10 @@ class Register extends React.Component {
         <br/>
         <div>
         <input onChange={e => this.onPassChange(e)} type="password" placeholder="password"/>
+        </div>
+        <br/>
+        <div>
+        <input onChange={e => this.onRepeatChange(e)} type="password" placeholder="repeat password"/>
         </div>
         <br/>
         <button onClick={() => this.onRegister()} style={{
