@@ -4,6 +4,9 @@ import { stateToHTML } from 'draft-js-export-html';
 import Raw from 'draft-js-raw-content-state';
 import createStyles from 'draft-js-custom-styles';
 import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 const customStyleMap = {
@@ -62,8 +65,11 @@ export default class Doc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: EditorState.createEmpty(),
-      title: 'Doc title',
+      editorState: this.props.content || EditorState.createEmpty(),
+      title: this.props.title || 'Untitled',
+      owner: this.props.owner || 'Owner',
+      collaborators: this.props.collaborators || [],
+      showEditors: false,
     };
     this.onChange = editorState => this.setState({ editorState });
   }
@@ -100,6 +106,10 @@ export default class Doc extends React.Component {
     this.onChange(newEditorState)
   }
 
+  showEditors() {
+    this.setState({ showEditors: !this.state.showEditors })
+  }
+
   render() {
     const { editorState } = this.state;
     const inlineStyles = exporter(this.state.editorState);
@@ -111,9 +121,15 @@ export default class Doc extends React.Component {
     return (
       <div>
         <AppBar
-          title="Title of the doc to edit"
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          title={this.state.title}
+          onLeftIconButtonClick={() => this.showEditors}
         />
+        <Drawer open={this.state.showEditors}>
+          <MenuItem>Owner: </MenuItem>
+          <MenuItem>  {this.state.owner}</MenuItem>
+          <MenuItem>Collaborators: </MenuItem>
+          {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
+        </Drawer>
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <input style={{width: '50%', fontSize: '25'}}onChange={(e) => this.setState({title:e.target.value})}
             value={this.state.title} />
@@ -151,6 +167,7 @@ export default class Doc extends React.Component {
               blockStyleFn={blockStyle}
             />
           </div>
+          <RaisedButton label="Save" primary={true} onClick={() => this.saveDoc} />
         </div>
       </div>
     );
