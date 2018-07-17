@@ -7,57 +7,66 @@ mongoose.connect(process.env.MONGODB_URI)
 
 var User = new Schema({
   username: {
-    type: String
+    type: String,
   },
   password: {
-    type: String
+    type: String,
   },
   docList: {
     type: Array,
-    default: []
-  }
+    default: [],
+  },
 });
 
-varr Document = new Schema({
 
-content: {
-  type: Array,
-  default: []
-},
+var User = mongoose.model('users', User)
 
-owner: {
-  type: ObjectId,
-  required: true,
-  ref: "users"
-},
 
-collaboratorList: {
-  type: [{
+var Document = new Schema({
+
+  content: {
+    type: Array,
+    default: [],
+  },
+
+  owner: {
     type: ObjectId,
-    ref: "users"
-  }]
-  default: [],
-},
-title: {
-  type: String,
-  default: "Untitled"
-},
+    required: true,
+    ref: 'users',
+  },
 
-password: {
-  type: String
-},
-createdTime: {
-  type: Date
-},
-lastEditTime: {
-  type: Date
-}
-},
-{
-  minimize: false
-}
+  collaboratorList: {
+    type: [{
+      type: ObjectId,
+      ref: 'users',
+    }],
+    default: [],
+  },
 
-module.exports = mongoose.model('documents', Document);
+  title: {
+    type: String,
+    default: 'Untitled',
+  },
+
+  password: {
+    type: String,
+  },
+  createdTime: {
+    type: Date,
+  },
+  lastEditTime: {
+    type: Date,
+  },
+},
+  {
+    minimize: false,
+  },
+);
+
+var Document = mongoose.model('documents', Document)
 
 
-})
+module.exports = {
+  User: User,
+  Document: Document
+};
