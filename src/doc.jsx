@@ -3,6 +3,7 @@ import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import Raw from 'draft-js-raw-content-state';
 import createStyles from 'draft-js-custom-styles';
+import AppBar from 'material-ui/AppBar';
 
 
 const customStyleMap = {
@@ -109,6 +110,10 @@ export default class Doc extends React.Component {
 
     return (
       <div>
+        <AppBar
+          title="Title of the doc to edit"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+        />
         <div style={{display: 'flex', justifyContent: 'center'}}>
           <input style={{width: '50%', fontSize: '25'}}onChange={(e) => this.setState({title:e.target.value})}
             value={this.state.title} />
