@@ -21,6 +21,9 @@ const customStyleMap = {
   orange: {
     color:"#ff8c00"
   },
+  black: {
+    color: '#000000',
+  },
 }
 
 const blockStyle = (block) => {
@@ -120,7 +123,7 @@ export default class Doc extends React.Component {
             </select>
 
             <select onChange={e => this.toggleColor(e.target.value)}>
-              {options(['green', 'blue', 'red', 'purple', 'orange'])}
+              {options(['green', 'blue', 'red', 'purple', 'orange', 'black'])}
             </select>
 
             <button onMouseDown={e => this.toggleAlignment(e, "left")}> Align Left </button>
