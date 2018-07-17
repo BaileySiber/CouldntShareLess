@@ -109,8 +109,10 @@ export default class Doc extends React.Component {
 
     return (
       <div>
-        <h1>{this.state.title}</h1>
-
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <input style={{width: '50%', fontSize: '25'}}onChange={(e) => this.setState({title:e.target.value})}
+            value={this.state.title} />
+        </div>
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
           <div style={{ flex: '1 0 25%' }}>
 
