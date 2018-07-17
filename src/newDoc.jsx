@@ -46,7 +46,7 @@ export default class CreateDoc extends React.Component {
             defaultValue="Untitled"
             onChange={e => this.setState({ username: e.target.value })}
           />
-           <RaisedButton label="Create" primary={true} onClick={() => this.createDoc} />
+          <RaisedButton label="Create" primary={true} onClick={() => this.createDoc} />
         </Paper>
       </div>
     )

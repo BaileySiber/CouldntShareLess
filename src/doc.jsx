@@ -74,6 +74,10 @@ export default class Doc extends React.Component {
     this.onChange = editorState => this.setState({ editorState });
   }
 
+  saveDoc() {
+
+  }
+
   onBoldClick(e) {
     e.preventDefault();
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
@@ -107,6 +111,7 @@ export default class Doc extends React.Component {
   }
 
   showEditors() {
+    console.log('drawbar')
     this.setState({ showEditors: !this.state.showEditors })
   }
 
@@ -122,16 +127,17 @@ export default class Doc extends React.Component {
       <div>
         <AppBar
           title={this.state.title}
-          onLeftIconButtonClick={() => this.showEditors}
+          onLeftIconButtonClick={this.showEditors.bind(this)}
         />
         <Drawer open={this.state.showEditors}>
           <MenuItem>Owner: </MenuItem>
           <MenuItem>  {this.state.owner}</MenuItem>
           <MenuItem>Collaborators: </MenuItem>
           {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
+          <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-          <input style={{width: '50%', fontSize: '25'}}onChange={(e) => this.setState({title:e.target.value})}
+        <div style={{display: 'flex', justifyContent: 'center', marginTop: '20' }}>
+          <input style={{width: '50%', fontSize: '25', border: 'none', textAlign: 'center'}}onChange={(e) => this.setState({title:e.target.value})}
             value={this.state.title} />
         </div>
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
@@ -150,14 +156,20 @@ export default class Doc extends React.Component {
               {options(['green', 'blue', 'red', 'purple', 'orange', 'black'])}
             </select>
 
-            <button onMouseDown={e => this.toggleAlignment(e, "left")}> Align Left </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "center")}> Align Center </button>
-            <button onMouseDown={e => this.toggleAlignment(e, "right")}> Align Right </button>
+            <button onMouseDown={e => this.toggleAlignment(e, "left")}> Left </button>
+            <button onMouseDown={e => this.toggleAlignment(e, "center")}> Center </button>
+            <button onMouseDown={e => this.toggleAlignment(e, "right")}> Right </button>
             <button onMouseDown={e => this.toggleAlignment(e, "unordered-list-item")}>Unordered List</button>
             <button onMouseDown={e => this.toggleAlignment(e, "ordered-list-item")}>Ordered List</button>
           </div>
 
-          <div style={{ flex: '1 0 25%' }}>
+          <div style={{
+            border: 'solid 1px',
+            borderRadius: '5px',
+            padding: '5px',
+            margin: '10px',
+            height: '50vh'
+          }}>
             <Editor
               placeholder="Hello... write here!!"
               customStyleFn={customStyleFn}
