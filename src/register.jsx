@@ -10,6 +10,18 @@ class Register extends React.Component {
     }
   }
 
+  onUsnChange = (e) => {
+    this.setState({
+      usn: event.target.value
+    })
+  }
+
+  onPassChange = (e) => {
+    this.setState({
+      pass: event.target.value
+    })
+  }
+
 
   onRegister = () => {
   	fetch (URL + '/register' , {
@@ -31,12 +43,39 @@ class Register extends React.Component {
   render() {
     return (
       <div style={{
-        backgroundColor: 'blue'
-      }}>
+				display: 'flex',
+        fontFamily: "Times New Roman",
+				flexDirection: 'column',
+				alignItems: 'center',
+        color: 'white',
+				backgroundColor: '#4C92C7',
+				margin: '10px',
+				padding: '30px'
+			}}>
         <h1>Register!</h1>
-        <input onChange={e => this.onUsnChange(e)} className="field" placeholder="name"/>
-        <input onChange={e => this.onPassChange(e)} type="password" className="field" placeholder="password"/>
-        <button onClick={() => this.onRegister()} className="btn">Register</button>
+        <div>
+        <input onChange={e => this.onUsnChange(e)} placeholder="name"/>
+        </div>
+        <br/>
+        <div>
+        <input onChange={e => this.onPassChange(e)} type="password" placeholder="password"/>
+        </div>
+        <br/>
+        <button onClick={() => this.onRegister()} style={{
+					backgroundColor: '#095997',
+          paddingTop: '5px',
+          paddingBottom: '5px',
+          paddingRight: '20px',
+          paddingLeft: '20px',
+          borderRadius: '12px',
+          border: 'none',
+          color: 'white',
+					fontFamily: "Times New Roman",
+					textAlign: 'center',
+					display: 'inline-block',
+					fontSize: '14px',
+					margin: '10px'
+				}}>Register</button>
       </div>
     )
   }
