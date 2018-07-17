@@ -4,8 +4,8 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const style = {
-  height: '80%',
-  width: '70%',
+  height: '70%',
+  width: '50%',
   margin: 20,
   textAlign: 'center',
   justifyContent: 'center',
@@ -18,12 +18,28 @@ export default class CreateDoc extends React.Component {
     super(props);
     this.state = {
       username: '',
-      docPassword: 'Untitled',
+      docPassword: '',
       title: '',
     };
   }
 
   createDoc() {
+    fetch('http:/localhost:1337/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        owner: this.props.userId,
+        title: this.state.title,
+        password: this.state.docPassword,
+      })
+    }).then(result => {
+      console.log('success')
+      return result.json();
+    }).then(json => {
+      this.props.navigate("doc", this.props.userId, json.docId)
+    })
   }
 
   render() {
