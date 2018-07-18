@@ -5,9 +5,11 @@ import Raw from 'draft-js-raw-content-state';
 import createStyles from 'draft-js-custom-styles';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
+import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios'
 
 const io = require('socket.io-client')
@@ -80,8 +82,26 @@ export default class Doc extends React.Component {
     this.onChange = editorState => this.setState({ editorState });
   }
 
-  saveDoc() {
+  exit() {
+    this.props.navigate('main')
+  }
 
+  saveDoc() {
+    fetch('http://localhost:1337/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        docId: this.props.docId,
+        content: convertToRaw(this.state.editorState),
+        title: this.state.title
+      })
+    }).then((res) => {
+      if(res.status === 200) {
+        console.log('success saving!')
+      }
+    }).catch(err => console.log(err))
   }
 
   onBoldClick(e) {
@@ -179,6 +199,8 @@ export default class Doc extends React.Component {
         <AppBar
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
+          iconElementRight={<FlatButton label="Main"/>}
+          onRightIconButtonClick={() => this.exit()}
         />
         <Drawer open={this.state.showEditors} width='17%'>
           <MenuItem>Owner: </MenuItem>
@@ -235,7 +257,7 @@ export default class Doc extends React.Component {
               blockStyleFn={blockStyle}
             />
           </div>
-          <RaisedButton label="Save" primary={true} onClick={() => this.saveDoc} />
+          <RaisedButton label="Save" primary={true} onClick={() => this.saveDoc()} />
         </div>
       </div>
     );
