@@ -178,11 +178,11 @@ export default class Doc extends React.Component {
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
         />
-        <div>Shareable Id: {this.state.docId}</div>
         <Drawer open={this.state.showEditors} width='17%'>
           <MenuItem>Owner: </MenuItem>
           <MenuItem>  {this.state.owner}</MenuItem>
           <MenuItem>Collaborators: </MenuItem>
+          <MenuItem>Doc Id: {this.state.docId}</MenuItem>
           {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>
