@@ -77,7 +77,9 @@ export default class Doc extends React.Component {
       owner: 'Owner',
       collaborators: [],
       showEditors: false,
-      socket: io("http://127.0.0.1:1337/")
+      socket: io("http://127.0.0.1:1337/"),
+      connected: null,
+      disconnected: null
     };
     this.onChange = editorState => this.setState({ editorState });
   }

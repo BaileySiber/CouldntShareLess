@@ -14,20 +14,19 @@ export default class Main extends React.Component {
   }
 
  componentDidMount(){
-    fetch("http://localhost:1337/getUserDocs?userId=" + this.props.userId)
+    fetch("http://localhost:1337/getAllDocs?userId=" + this.props.userId)
     .then((res) => res.json())
     .then((json) => {
       this.setState({
-        myDocArray: json.documents
+        myDocArray: json.userDocs,
+        sharedDocArray: json.collabDocs
       })
-    })
-    .then(() => {
-      fetch('http://localhost:1337/getSharedDocs?userId=')
     })
     .catch(err => console.log(err))
   }
 
   enterJoin() {
+    //add contributor
     //if you click, open the doc
 
   }
@@ -37,6 +36,15 @@ export default class Main extends React.Component {
   }
 
   render(){
+    var miniUserDoc = []
+    for(var i=0; i<this.state.myDocArray.length; i++){
+      miniUserDoc.push(<MiniDoc
+        title={this.state.myDocArray[i].title}
+        docId={this.state.myDocArray[i].docId}
+        navigate={this.props.navigate}
+        userId={this.props.userId}
+        />)
+    }
     return(
       <div style={{backgroundColor:"#4C92C7"}}>
       <AppBar
@@ -49,7 +57,7 @@ export default class Main extends React.Component {
 
       <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
 
-
+      {miniUserDoc}
 
       <div style={{padding: 15, paddingTop: 20}}>
       <button
@@ -71,7 +79,9 @@ export default class Main extends React.Component {
     <div style={{fontFamily:'Times New Roman', fontSize:"30px", padding: 10, color: "white"}}>
     Shared Documents
     </div>
-    <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}></div>
+    <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
+    {this.state.sharedDocArray}
+    </div>
 
     <div style={{padding:10}}>
     <input type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id})}></input>
@@ -80,4 +90,22 @@ export default class Main extends React.Component {
     </div>
   )
 }
+}
+class MiniDoc extends React.Component {
+  constructor(){
+    super();
+    this.state={}
+  }
+
+  onTitle(){
+    this.props.navigate("doc", this.props.userId, this.props.docId)
+  }
+
+  render(){
+    return(
+      <div>
+      <button onClick={() => this.onTitle()}> {this.props.title} </button>
+      </div>
+    )
+  }
 }
