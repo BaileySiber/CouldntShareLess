@@ -7,10 +7,25 @@ export default class Main extends React.Component {
   constructor(){
     super();
     this.state={
-      docId: ""
+      docId: "",
+      myDocArray: [],
+      sharedDocArray: []
     }
   }
 
+ componentDidMount(){
+    fetch("http://localhost:1337/getUserDocs?userId=" + this.props.userId)
+    .then((res) => res.json())
+    .then((json) => {
+      this.setState({
+        myDocArray: json.documents
+      })
+    })
+    .then(() => {
+      fetch('http://localhost:1337/getSharedDocs?userId=')
+    })
+    .catch(err => console.log(err))
+  }
 
   enterJoin() {
     //if you click, open the doc
@@ -33,6 +48,8 @@ export default class Main extends React.Component {
       </div>
 
       <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
+
+
 
       <div style={{padding: 15, paddingTop: 20}}>
       <button
