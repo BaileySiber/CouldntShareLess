@@ -19,7 +19,7 @@ class Register extends React.Component {
 
   onPassChange = (e) => {
     this.setState({
-      pass: event.target.value
+      password: event.target.value
     })
   }
 
@@ -94,5 +94,6 @@ class Register extends React.Component {
   }
 
 }
+
 
 export default Register
