@@ -205,6 +205,22 @@ app.get('/getDocInfo', function(req, res){
   })
 })
 
+app.get('/getUserDocs', function(req, res){
+  let userId = req.body.userId;
+  Document.find({owner: userId})
+  .then(results=> {
+    res.json({"documents": results});
+  }).catch(err=> {
+    res.json({"error": err});
+  })
+
+
+});
+
+app.get('/getCollabDocs', function(req, res){
+
+})
+
 //socket connect --> listening and emitting
 //
 io.on("connection", (socket) => {
