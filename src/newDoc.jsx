@@ -30,7 +30,7 @@ export default class CreateDoc extends React.Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        owner: this.props.userId,
+        userId: this.props.userId,
         title: this.state.title,
         password: this.state.docPassword,
       })
@@ -38,6 +38,7 @@ export default class CreateDoc extends React.Component {
       console.log('success')
       return result.json();
     }).then(json => {
+      console.log(json.docId)
       this.props.navigate("doc", this.props.userId, json.docId)
     }).catch((err) => console.log(err))
   }

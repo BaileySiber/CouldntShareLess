@@ -19,7 +19,10 @@ export default class App extends React.Component {
   }
 
   navigate = (page, userId, docId) => {
-    if (userId) {
+    if (userId && docId) {
+      this.setState({userId: userId, docId: docId, currPage: page})
+    }
+    else if (userId) {
       this.setState({userId: userId, currPage: page})
     }
     else if (docId) {
