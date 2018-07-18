@@ -28,7 +28,7 @@ export default class Main extends React.Component {
   enterJoin() {
     //add contributor
     //if you click, open the doc
-
+     socket.emit("addCollaborator", {docId: this.state.docId, userId:this.props.userId})
   }
   add(){
     //when you click, navigate to newDoc component
