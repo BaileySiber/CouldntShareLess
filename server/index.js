@@ -205,21 +205,35 @@ app.get('/getDocInfo', function(req, res){
   })
 })
 
-app.get('/getUserDocs', function(req, res){
-  let userId = req.body.userId;
-  Document.find({owner: userId})
-  .then(results=> {
-    res.json({"documents": results});
+app.get('/getAllDocs', function(req, res){
+  let userId = req.query.userId;
+  let userDocs = [];
+  let collabDocs = [];
+
+  Document.find({})
+  .then(results => {
+    results.forEach(eachDoc => {
+      if (eachDoc.collaboratorList.includes(userId)){
+        collabDocs.push({
+          title: eachDoc.title,
+          docId: eachDoc._id
+        });
+      }else if (eachDoc.owner == userId){
+        userDocs.push({
+          title: eachDoc.title,
+          docId: eachDoc._id
+        });
+      }
+    })
+    res.json({
+      userDocs: userDocs,
+      collabDocs: collabDocs
+    })
   }).catch(err=> {
+    console.log(err);
     res.json({"error": err});
   })
-
-
 });
-
-app.get('/getCollabDocs', function(req, res){
-
-})
 
 //socket connect --> listening and emitting
 //
