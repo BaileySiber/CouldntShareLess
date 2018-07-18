@@ -124,11 +124,6 @@ export default class Doc extends React.Component {
     //read the documentation --> Milestone 3
     //realtime change for content, highlighting, title, cursor
     // this.state.socket.emit("realtimeContent", )
-
-  }
-  componentDidMount() {
-    //if no doc found(no one is currently editting it) use fetch
-
     const content = EditorState.getCurrentContent();
     this.state.socket.emit("realtimeContent", content)
     this.state.socket.on("contentRender", content => {
@@ -136,9 +131,12 @@ export default class Doc extends React.Component {
         editorState: content
       })
     })
+
   }
+
+
   componentDidMount(){
-    console.log(this.props.docId)
+    console.log(this.props.docId);
     //if no doc found(no one is currently editing it) use fetch
     fetch("/getDocInfo?docId=" + this.props.docId)
     .then((res) => res.json())
