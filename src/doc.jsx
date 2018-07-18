@@ -148,14 +148,16 @@ export default class Doc extends React.Component {
     //read the documentation --> Milestone 3
     //realtime change for content, highlighting, title, cursor
     // this.state.socket.emit("realtimeContent", )
-    const content = converToRaw(EditorState.getCurrentContent());
-    this.state.socket.emit("realtimeContent", content)
+    //content
+    const currentContent = convertToRaw(EditorState.getCurrentContent());
+    this.state.socket.emit("realtimeContent", {content:currentContent, id:this.props.docId})
     this.state.socket.on("contentRender", content => {
       this.setState({
         editorState: convertFromRaw(content)
       })
     })
 
+    //
   }
 
 
@@ -175,7 +177,7 @@ export default class Doc extends React.Component {
 
     //when people are already on the doc, use socket
     //edit --> unnecessary because already fetched, but learned to set up!
-    // this.state.socket.on('connect', () => {
+    this.state.socket.on('connect', () => {
     //
     //   this.state.socket.emit("enterDoc", this.props.docId)
     //   this.state.socket.on("foundDoc", document => {
@@ -186,7 +188,9 @@ export default class Doc extends React.Component {
     //       docId: document._id
     //     })
     //   })
-    // })
+    this.state.socket.emit("docId", this.props.docId)
+    })
+
   }
 
   render() {

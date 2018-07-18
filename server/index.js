@@ -247,9 +247,11 @@ io.on("connection", (socket) => {
   //     res.json({"error": err})
   //   })
   // })
-
-  socket.on("realtimeContent", content => {
-    soket.emit("contentRender", content)
+  socket.on("docId", (id) => {
+    socket.join(id)
+  })
+  socket.on("realtimeContent", data => {
+    socket.to(data.id).emit("contentRender", data.content)
   })
 
 })
