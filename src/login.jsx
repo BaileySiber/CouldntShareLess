@@ -18,7 +18,7 @@ class Login extends React.Component {
 
 	onPassChange = (e) => {
 		this.setState({
-			pass: e.target.value
+			password: e.target.value
 		})
 	}
 
