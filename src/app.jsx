@@ -12,7 +12,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currPage: "doc",
+      currPage: "register",
       userId: null,
       docId: null
     }

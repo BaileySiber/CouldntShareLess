@@ -9,6 +9,8 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 
+const io = require('socket.io-client')
+
 
 
 const customStyleMap = {
@@ -72,6 +74,7 @@ export default class Doc extends React.Component {
       owner: 'Owner',
       collaborators: [],
       showEditors: false,
+      socket: io("http://127.0.0.1:1337/")
     };
     this.onChange = editorState => this.setState({ editorState });
   }
@@ -117,7 +120,14 @@ export default class Doc extends React.Component {
     this.setState({ showEditors: !this.state.showEditors })
   }
 
+  onChange(){
+    //read the documentation --> Milestone 3
+    //realtime change for content, highlighting, title, cursor
+    this.state.socket.emit("realtimeContent", )
+
+  }
   componentDidMount(){
+    //if no doc found(no one is currently editting it) use fetch
     fetch("/getDocInfo?docId=" + this.props.docId)
     .then((res) => res.json())
     .then((json) => this.setState({
@@ -126,6 +136,20 @@ export default class Doc extends React.Component {
       owner: json.document.owner.username,
       collaborators: json.document.collaboratorList
     }))
+
+    //edit --> unnecessary because already fetched, but learned to set up!
+    this.state.socket.on('connect', () => {
+
+      this.state.socket.emit("enterDoc", this.props.docId)
+      this.state.socket.on("foundDoc", document => {
+
+        this.setState({
+          title: document.title,
+          editorState: document.content,
+          docId: document._id
+        })
+      })
+    })
   }
 
   render() {
@@ -142,6 +166,8 @@ export default class Doc extends React.Component {
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
         />
+        //edit
+        <div>Shareable Id: {this.state.docId}</div>
         <Drawer open={this.state.showEditors} width='17%'>
           <MenuItem>Owner: </MenuItem>
           <MenuItem>  {this.state.owner}</MenuItem>
