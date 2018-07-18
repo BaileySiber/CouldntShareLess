@@ -176,17 +176,21 @@ app.post('/save', function(req, res){
 
 
   //docId, content, title
-  Document.findByIdAndUpdate(req.body.docId, {
-    content: req.body.content,
-    title: req.body.title
-  })
-  .then(result=> {
-    res.json({"status":"200"});
 
+  Document.findById(req.body.docId)
+  .then(result=> {
+    console.log('first find by id',result);
+    Document.findByIdAndUpdate(req.body.docId, {
+      content: result.content.concat(req.body.content),
+      title: req.body.title
+    }).then(newResult => {
+      console.log('first find by id',newResult);
+
+      res.json({"status":"200"});
+    })
   }).catch(err=> {
     res.json({"error":err});
   });
-
 })
 
 //takes docId
