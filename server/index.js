@@ -190,6 +190,20 @@ app.get('/getDocInfo', function(req, res){
   })
 })
 
+//socket connect --> listening and emitting
+//
+io.on("connection", (socket) => {
+  // socket.on("enterDoc", id => {
+  //   Document.findById(id)
+  //   .then(result => {
+  //     socket.emit("foundDoc", result)
+  //   })
+  //   .catch(err => {
+  //     res.json({"error": err})
+  //   })
+  // })
+
+})
 
 app.listen(port);
 console.log('Server running at http://127.0.0.1:1337/');
