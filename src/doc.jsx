@@ -123,33 +123,34 @@ export default class Doc extends React.Component {
   onChange(){
     //read the documentation --> Milestone 3
     //realtime change for content, highlighting, title, cursor
-    this.state.socket.emit("realtimeContent", )
+    // this.state.socket.emit("realtimeContent", )
 
   }
-  componentDidMount(){
+  componentDidMount() {
     //if no doc found(no one is currently editting it) use fetch
     fetch("/getDocInfo?docId=" + this.props.docId)
     .then((res) => res.json())
-    .then((json) => this.setState({
-      editorState:EditorState.createWithContent(json.document.content),
+    .then((json) =>
+      this.setState({
+      editorState: EditorState.createWithContent(json.document.content),
       title: json.document.title,
       owner: json.document.owner.username,
       collaborators: json.document.collaboratorList
-    }))
+    })).catch(err => console.log(err))
 
     //edit --> unnecessary because already fetched, but learned to set up!
-    this.state.socket.on('connect', () => {
-
-      this.state.socket.emit("enterDoc", this.props.docId)
-      this.state.socket.on("foundDoc", document => {
-
-        this.setState({
-          title: document.title,
-          editorState: document.content,
-          docId: document._id
-        })
-      })
-    })
+    // this.state.socket.on('connect', () => {
+    //
+    //   this.state.socket.emit("enterDoc", this.props.docId)
+    //   this.state.socket.on("foundDoc", document => {
+    //
+    //     this.setState({
+    //       title: document.title,
+    //       editorState: document.content,
+    //       docId: document._id
+    //     })
+    //   })
+    // })
   }
 
   render() {
@@ -166,7 +167,6 @@ export default class Doc extends React.Component {
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
         />
-        //edit
         <div>Shareable Id: {this.state.docId}</div>
         <Drawer open={this.state.showEditors} width='17%'>
           <MenuItem>Owner: </MenuItem>
