@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import axios from 'axios';
 
 const style = {
   height: '70%',
@@ -24,22 +25,13 @@ export default class CreateDoc extends React.Component {
   }
 
   createDoc() {
-    fetch('http://localhost:1337/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
+    axios.post('http://localhost:1337/create', {
         userId: this.props.userId,
         title: this.state.title,
         password: this.state.docPassword,
-      })
-    }).then(result => {
-      console.log('success')
-      return result.json();
     }).then(json => {
-      console.log(json.docId)
-      this.props.navigate("doc", this.props.userId, json.docId)
+      console.log(json.data.docId)
+      this.props.navigate("doc", this.props.userId, json.data.docId)
     }).catch((err) => console.log(err))
   }
 
@@ -61,7 +53,7 @@ export default class CreateDoc extends React.Component {
           <TextField
             floatingLabelText="Document Title"
             defaultValue="Untitled"
-            onChange={e => this.setState({ username: e.target.value })}
+            onChange={e => this.setState({ title: e.target.value })}
           />
           <RaisedButton label="Create" primary={true} onClick={this.createDoc.bind(this)} />
         </Paper>

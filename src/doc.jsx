@@ -1,5 +1,5 @@
 import React from 'react';
-import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
+import { Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import Raw from 'draft-js-raw-content-state';
 import createStyles from 'draft-js-custom-styles';
@@ -8,6 +8,7 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+import axios from 'axios'
 
 const io = require('socket.io-client')
 
@@ -69,7 +70,7 @@ export default class Doc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: this.props.content || EditorState.createEmpty(),
+      editorState: EditorState.createEmpty(),
       title: "",
       owner: 'Owner',
       collaborators: [],
@@ -124,11 +125,11 @@ export default class Doc extends React.Component {
     //read the documentation --> Milestone 3
     //realtime change for content, highlighting, title, cursor
     // this.state.socket.emit("realtimeContent", )
-    const content = EditorState.getCurrentContent();
+    const content = converToRaw(EditorState.getCurrentContent());
     this.state.socket.emit("realtimeContent", content)
     this.state.socket.on("contentRender", content => {
       this.setState({
-        editorState: content
+        editorState: convertFromRaw(content)
       })
     })
 
@@ -136,17 +137,18 @@ export default class Doc extends React.Component {
 
 
   componentDidMount(){
-    console.log(this.props.docId);
+    console.log('DOCID', this.props.docId);
     //if no doc found(no one is currently editing it) use fetch
-    fetch("/getDocInfo?docId=" + this.props.docId)
-    .then((res) => res.json())
-    .then((json) =>
+    axios.get("http://localhost:1337/getDocInfo?docId=" + this.props.docId)
+    .then((json) => {
+      console.log('componentDidMount json', json.data);
       this.setState({
-      editorState: EditorState.createWithContent(json.document.content),
-      title: json.document.title,
-      owner: json.document.owner.username,
-      collaborators: json.document.collaboratorList
-    })).catch(err => console.log(err))
+        editorState: json.data.document.content.length? EditorState.createWithContent(convertFromRaw(json.data.document.content[json.data.document.content.length-1])) : EditorState.createEmpty(),
+        title: json.data.document.title,
+        owner: json.data.document.owner.username,
+        collaborators: json.data.document.collaboratorList
+    });
+  }).catch(err => console.log('ErRor', err))
 
     //when people are already on the doc, use socket
     //edit --> unnecessary because already fetched, but learned to set up!
@@ -182,7 +184,7 @@ export default class Doc extends React.Component {
           <MenuItem>Owner: </MenuItem>
           <MenuItem>  {this.state.owner}</MenuItem>
           <MenuItem>Collaborators: </MenuItem>
-          <MenuItem>Doc Id: {this.state.docId}</MenuItem>
+          <MenuItem>Shareable Id: {this.state.docId}</MenuItem>
           {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>

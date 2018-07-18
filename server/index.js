@@ -7,7 +7,15 @@ var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local');
 var mongoose = require('mongoose');
+var draftJs = require('draft-js');
+var EditorState = draftJs.EditorState;
+var convertToRaw = draftJs.convertToRaw;
+
+// import {EditorState} from 'draft-js';
+// var cors = require('cors');
 let app = express();
+
+// app.use(cors());
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -89,6 +97,8 @@ app.post('/login', (req, res)=> {
 }
 */
 
+
+
 app.post('/register', (req, res)=> {
   if (!validateReq(req)) {
     res.json({ error: 'invalid registration'});
@@ -138,11 +148,13 @@ app.post('/create', (req, res)=> {
     title:
     password:
   }*/
+  console.log('create route', req.body);
+
   let newDoc = new Document({
     owner: req.body.userId,
     title: req.body.title,
     password: req.body.password,
-    createdTime: new Date()
+    createdTime: new Date(),
   });
   newDoc.save(function(err, doc) {
     console.log(doc);
@@ -179,6 +191,8 @@ app.post('/save', function(req, res){
 
 //takes docId
 app.get('/getDocInfo', function(req, res){
+  console.log('get doc info');
+
   let docId = req.query.docId;
 
   Document.findById(docId)
