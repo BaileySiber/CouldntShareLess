@@ -39,12 +39,13 @@ export default class CreateDoc extends React.Component {
       return result.json();
     }).then(json => {
       this.props.navigate("doc", this.props.userId, json.docId)
-    })
+    }).catch((err) => console.log(err))
   }
 
   render() {
     return (
-      <div>
+      <div style={{textAlign: 'center',
+      justifyContent: 'center'}}>
         <Paper style={style} zDepth={2}>
           <TextField
             hintText="Username"
@@ -61,7 +62,7 @@ export default class CreateDoc extends React.Component {
             defaultValue="Untitled"
             onChange={e => this.setState({ username: e.target.value })}
           />
-          <RaisedButton label="Create" primary={true} onClick={() => this.createDoc} />
+          <RaisedButton label="Create" primary={true} onClick={this.createDoc.bind(this)} />
         </Paper>
       </div>
     )
