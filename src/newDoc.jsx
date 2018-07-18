@@ -24,7 +24,7 @@ export default class CreateDoc extends React.Component {
   }
 
   createDoc() {
-    fetch('http:/localhost:1337/create', {
+    fetch('http://localhost:1337/create', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
