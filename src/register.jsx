@@ -13,19 +13,19 @@ class Register extends React.Component {
 
   onUsnChange = (e) => {
     this.setState({
-      usn: event.target.value
+      usn: e.target.value
     })
   }
 
   onPassChange = (e) => {
     this.setState({
-      password: event.target.value
+      password: e.target.value
     })
   }
 
   onRepeatChange = (e) => {
     this.setState({
-      repeat: event.target.value
+      repeat: e.target.value
     })
   }
 
