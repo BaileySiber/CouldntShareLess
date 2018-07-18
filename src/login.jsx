@@ -12,13 +12,13 @@ class Login extends React.Component {
 
 	onUsnChange = (e) => {
 		this.setState({
-			usn: event.target.value
+			usn: e.target.value
 		})
 	}
 
 	onPassChange = (e) => {
 		this.setState({
-			pass: event.target.value
+			pass: e.target.value
 		})
 	}
 
