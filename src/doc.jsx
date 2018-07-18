@@ -123,11 +123,24 @@ export default class Doc extends React.Component {
   onChange(){
     //read the documentation --> Milestone 3
     //realtime change for content, highlighting, title, cursor
+<<<<<<< HEAD
     // this.state.socket.emit("realtimeContent", )
 
   }
   componentDidMount() {
     //if no doc found(no one is currently editting it) use fetch
+=======
+    const content = EditorState.getCurrentContent();
+    this.state.socket.emit("realtimeContent", content)
+    this.state.socket.on("contentRender", content => {
+      this.setState({
+        editorState: content
+      })
+    })
+  }
+  componentDidMount(){
+    //if no doc found(no one is currently editing it) use fetch
+>>>>>>> 7c8169f18f3cc686c52979f25a81f663b4a72087
     fetch("/getDocInfo?docId=" + this.props.docId)
     .then((res) => res.json())
     .then((json) =>
@@ -138,6 +151,7 @@ export default class Doc extends React.Component {
       collaborators: json.document.collaboratorList
     })).catch(err => console.log(err))
 
+    //when people are already on the doc, use socket
     //edit --> unnecessary because already fetched, but learned to set up!
     // this.state.socket.on('connect', () => {
     //

@@ -203,6 +203,10 @@ io.on("connection", (socket) => {
   //   })
   // })
 
+  socket.on("realtimeContent", content => {
+    soket.emit("contentRender", content)
+  })
+
 })
 
 app.listen(port);
