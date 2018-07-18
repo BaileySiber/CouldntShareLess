@@ -87,6 +87,7 @@ export default class Doc extends React.Component {
   }
 
   saveDoc() {
+
     fetch('http://localhost:1337/save', {
       method: 'POST',
       headers: {
@@ -94,7 +95,7 @@ export default class Doc extends React.Component {
       },
       body: JSON.stringify({
         docId: this.props.docId,
-        content: convertToRaw(this.state.editorState),
+        content: convertToRaw(this.state.editorState.getCurrentContent()),
         title: this.state.title
       })
     }).then((res) => {
@@ -257,7 +258,7 @@ export default class Doc extends React.Component {
               blockStyleFn={blockStyle}
             />
           </div>
-          <RaisedButton label="Save" primary={true} onClick={() => this.saveDoc()} />
+          <RaisedButton label="Save" primary={true} onClick={this.saveDoc.bind(this)} />
         </div>
       </div>
     );

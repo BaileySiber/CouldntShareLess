@@ -173,10 +173,7 @@ app.post('/create', (req, res)=> {
 
 
 app.post('/save', function(req, res){
-
-
   //docId, content, title
-
   Document.findById(req.body.docId)
   .then(result=> {
     console.log('first find by id',result);
