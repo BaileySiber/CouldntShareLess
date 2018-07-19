@@ -18,6 +18,7 @@ export default class Main extends React.Component {
     fetch("http://localhost:1337/getAllDocs?userId=" + this.props.userId)
     .then((res) => res.json())
     .then((json) => {
+      console.log('my docs', json);
       this.setState({
         myDocArray: json.userDocs,
         sharedDocArray: json.collabDocs
@@ -65,6 +66,16 @@ export default class Main extends React.Component {
         userId={this.props.userId}
         />)
     }
+    console.log(this.state.sharedDocArray);
+    var miniSharedDoc = [];
+    for(var i=0; i<this.state.sharedDocArray.length; i++){
+      miniSharedDoc.push(<MiniDoc
+        title={this.state.sharedDocArray[i].title}
+        docId={this.state.sharedDocArray[i].docId}
+        navigate={this.props.navigate}
+        userId={this.props.userId}
+        />)
+    }
     return(
       <div style={{backgroundColor:"#4C92C7"}}>
       <AppBar
@@ -84,24 +95,21 @@ export default class Main extends React.Component {
           backgroundColor: "#095997",
           float: "right"
         }}
-        onClick={()=> this.add()}
-      >Add</button>
+        onClick={()=> this.add()}>
+          Add
+        </button>
       </div>
 
-      <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
+      <div style={{display: 'inlineBlock', height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
 
-      {miniUserDoc}
-
-      <div style={{padding: 15, paddingTop: 20}}>
-
-    </div>
-    </div>
+          {miniUserDoc}
+      </div>
 
     <div style={{fontFamily:'Times New Roman', fontSize:"30px", padding: 10, color: "white"}}>
     Shared Documents
     </div>
     <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
-    {this.state.sharedDocArray}
+      {miniSharedDoc}
     </div>
 
     <div style={{padding:10}}>
@@ -124,7 +132,7 @@ class MiniDoc extends React.Component {
 
   render(){
     return(
-      <div style={{display: 'inline'}}>
+      <div>
         <button style={{height: 80, width: 80, margin: 10, border: 'solid 1px'}} onClick={() => this.onTitle()}> <strong> {this.props.title} </strong></button>
       </div>
     )

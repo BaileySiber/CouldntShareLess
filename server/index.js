@@ -39,44 +39,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// passport.use(new LocalStrategy(function(username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//
-//       if (err) {
-//         console.log(err);
-//         return done(err);
-//       }
-//       // if no user present, auth failed
-//       if (!user) {
-//         console.log(user);
-//         return done(null, false, { message: 'Incorrect username.' });
-//       }
-//       // if passwords do not match, auth failed
-//       if (user.password !== password) {
-//         return done(null, false, { message: 'Incorrect password.' });
-//       }
-//       // auth has has succeeded
-//       return done(null, user);
-//     });
-//   }
-// ));
-
-// app.post('/login',
-//   passport.authenticate('local', { failWithError: true }),
-//   function(req, res, next) {
-//     // handle success
-//     if (req.xhr) { return res.json({ id: req.user.id }); }
-//     return res.json({"error": "error"});
-//   },
-//   function(err, req, res, next) {
-//     // handle error
-//     if (req.xhr) { return res.json(err); }
-//     return res.json({"error": "error"});
-//   }
-// );
-
-
-
 app.post('/login', (req, res)=> {
   User.findOne({username: req.body.username})
   .then(result=> {
@@ -90,17 +52,8 @@ app.post('/login', (req, res)=> {
   })
 });
 
-/*
-  EXPECTS
-  {
-  username:
-  password:
-  passwordRepeat:
-}
-*/
 
-
-
+//expects username, password, passwordRepeat
 app.post('/register', (req, res)=> {
   if (!validateReq(req)) {
     res.json({ error: 'invalid registration'});
@@ -117,10 +70,6 @@ app.post('/register', (req, res)=> {
       }
     })
   }
-})
-
-app.get('/', function(req, res){
-  res.send('test');
 })
 
 /** OTHER ROUTES **/
@@ -144,12 +93,8 @@ app.post('/editDoc', (req, res)=>{
 })
 
 app.post('/create', (req, res)=> {
-  /* expects
-   {
-    userId:
-    title:
-    password:
-  }*/
+  /* expects userId, title, password
+  */
   let newDoc = new Document({
     owner: req.body.userId,
     title: req.body.title,
@@ -196,7 +141,7 @@ app.post('/save', function(req, res){
   });
 })
 
-//takes docId
+//expects docId in query params
 app.get('/getDocInfo', function(req, res){
   let docId = req.query.docId;
 
@@ -209,9 +154,9 @@ app.get('/getDocInfo', function(req, res){
   })
 })
 
-//add contributors
+//add contributors,
+// expects userId, docId,
 app.post("/addCollaborator", function(req, res) {
-  console.log('adding collaborator', req.body.userId);
   Document.findById(req.body.docId)
   .then(result => {
     result.collaboratorList.push(req.body.userId);
@@ -227,6 +172,8 @@ app.post("/addCollaborator", function(req, res) {
   })
 })
 
+
+//expects userId as query params
 app.get('/getAllDocs', function(req, res){
   let userId = req.query.userId;
   let userDocs = [];
@@ -235,16 +182,13 @@ app.get('/getAllDocs', function(req, res){
   Document.find({})
   .then(results => {
     results.forEach(eachDoc => {
-      console.log(typeof eachDoc.collaboratorList[0]._id, typeof userId);
       if (eachDoc.owner.toString() === userId){
-        console.log('user doc match');
         userDocs.push({
           title: eachDoc.title,
           docId: eachDoc._id
         });
       }
       else if (eachDoc.collaboratorList.includes(userId)){
-        console.log('collab match');
         collabDocs.push({
           title: eachDoc.title,
           docId: eachDoc._id
@@ -275,18 +219,14 @@ io.on("connection", (socket) => {
   //every person on the doc
   socket.on("join", (id) => {
 
-    console.log("SERVER --> 1.listening join")
     socket.join(id)
     io.in(id).clients((err, clientArr) => {
-      console.log('client array ',clientArr);
       //only person in the room
       if(clientArr.length === 1){
-        console.log("SERVER --> 2.emitting fetch - person 1")
         socket.emit("fetch")
 
         //else multiple people
       }else if (clientArr.length > 1){
-        console.log("SERVER --> emitting realtime - person 2")
         socket.emit("contentRender", rooms[id])
 
       }
@@ -297,9 +237,7 @@ io.on("connection", (socket) => {
   //sets the initial content of the room
   socket.on('setRoom', data => {
 
-    console.log("SERVER --> listening setRoom")
     rooms[data.docId] = data.roomContent;
-    console.log(rooms[data.docId]);
   })
 
   socket.on("realtimeContent", data => {
@@ -310,24 +248,8 @@ io.on("connection", (socket) => {
 
   socket.on("closeDoc", id => {
     socket.leave(id);
-    io.in(id).clients((err, clientArr) => {
-      console.log('client array ',clientArr);
-      //only person in the room
-
-    })
   })
 
-
-  //mainpage listening
-  // socket.on("addCollaborator", data => {
-  //   console.log("listening: " + data)
-  //   Document.findById(data.docId, function(foundDoc, err){
-  //     if(err){
-  //       console.log(err)
-  //     }
-  //     foundDoc.collaboratorList.push(data.userId)
-  //   })
-  // })
 })
 
 server.listen(port);

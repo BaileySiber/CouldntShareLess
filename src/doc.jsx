@@ -81,8 +81,9 @@ export default class Doc extends React.Component {
       connected: null,
       disconnected: null
     };
-    this.onChange = editorState => this.setState({ editorState });
-  }
+
+    this.onChange = this.onChange.bind(this);
+}
 
   exit() {
     this.props.navigate('main')
@@ -142,49 +143,56 @@ export default class Doc extends React.Component {
     this.setState({ showEditors: !this.state.showEditors })
   }
 
-  onChange() {
+  onChange(editorState) {
     //read the documentation --> Milestone 3
     //realtime change for content, highlighting, title, cursor
     // this.state.socket.emit("realtimeContent", )
-    //content
-    const currentContent = convertToRaw(this.state.editorState.getCurrentContent());
-    this.state.socket.emit("realtimeContent", {content:currentContent, id:this.props.docId})
+    this.setState({
+      editorState: editorState
+    }, () => {
+      const currentContent = convertToRaw(editorState.getCurrentContent());
+      this.state.socket.emit("realtimeContent", {
+        content:currentContent,
+        id:this.props.docId
+      })
+    })
   }
 
 
   componentDidMount(){
-    this.state.socket.on('connect', () => {
-      this.state.socket.emit("join", this.props.docId)
 
-      this.state.socket.on("fetch", () => {
-        console.log("CLIENT --> 3.listening fetch")
+    //everyone who opens a doc
+    this.state.socket.on('connect', () => {
+      //everyone joins the room with the title of this.props.docId
+      this.state.socket.emit("join", this.props.docId);
+
       //if no doc found(no one is currently editing it) use fetch
+      this.state.socket.on("fetch", () => {
+
         axios.get("http://localhost:1337/getDocInfo?docId=" + this.props.docId)
         .then((json) => {
-          console.log(json.data);
           this.setState({
             editorState: json.data.document.content.length? EditorState.createWithContent(convertFromRaw(json.data.document.content[json.data.document.content.length-1])) : EditorState.createEmpty(),
             title: json.data.document.title,
             owner: json.data.document.owner.username,
             collaborators: json.data.document.collaboratorList
+          }, () => {
+            this.state.socket.emit('setRoom', {
+              docId: this.props.docId,
+              roomContent: convertToRaw(this.state.editorState.getCurrentContent()),
+            })
           });
         }).catch(err => console.log('ErRor', err))
 
-        this.state.socket.emit('setRoom', {
-          docId: this.props.docId,
-          roomContent: convertToRaw(this.state.editorState.getCurrentContent()),
-        })
+
       });
 
       this.state.socket.on("contentRender", content => {
         this.setState({
-          editorState: EditorState.createWithContent(convertFromRaw(content))// TEMP:
+          editorState: EditorState.createWithContent(convertFromRaw(content))
         })
       })
-      // this.state.socket.on("realtime", (editorState) =>
-      //   this.setState({
-      //     editorState: EditorState.createWithContent(convertFromRaw(editorState))
-      //   }))
+
     })
     //when people are already on the doc, use socket
     //edit --> unnecessary because already fetched, but learned to set up!
@@ -259,7 +267,7 @@ export default class Doc extends React.Component {
               placeholder="Hello... write here!!"
               customStyleFn={customStyleFn}
               customStyleMap={customStyleMap}
-              editorState={editorState}
+              editorState={this.state.editorState}
               onChange={this.onChange}
               blockStyleFn={blockStyle}
             />
