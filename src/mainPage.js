@@ -27,10 +27,27 @@ export default class Main extends React.Component {
   }
 
   enterJoin() {
+    //send docID, userId,
+    fetch('http://localhost:1337/addCollaborator', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        docId: this.state.docId,
+        userId: this.props.userId
+      })
+    })
+    .then(res=> {
+      return res.json();
+    }).then(json=> {
+      if (json.status === 200){
+        this.props.navigate("doc", this.props.userId, this.state.docId)
+      }
+    })
     //add contributor
     //if you click, open the doc
     //fetch post collaborator
-     this.props.navigate("doc", this.props.userId, this.state.docId)
   }
   add(){
     //when you click, navigate to newDoc component
@@ -54,7 +71,20 @@ export default class Main extends React.Component {
         onLeftIconButtonClick={() => this.showEditors}
       />
       <div style={{fontFamily:'Times New Roman', fontSize:"30px", padding: 10, color: "white"}}>
-      Your Documents
+        Your Documents
+        <button
+          type="button"
+          style={{
+          width: "50px",
+          height: "50px",
+          fontSize: "18px",
+          borderRadius: "25px",
+          color: "white",
+          backgroundColor: "#095997",
+          float: "right"
+        }}
+        onClick={()=> this.add()}
+      >Add</button>
       </div>
 
       <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
@@ -62,19 +92,7 @@ export default class Main extends React.Component {
       {miniUserDoc}
 
       <div style={{padding: 15, paddingTop: 20}}>
-      <button
-      type="button"
-      style={{
-      width: "50px",
-      height: "50px",
-      fontSize: "18px",
-      borderRadius: "25px",
-      color: "white",
-      backgroundColor: "#095997",
-      float: "right"
-      }}
-      onClick={()=> this.add()}
-    >Add</button>
+
     </div>
     </div>
 
@@ -105,8 +123,8 @@ class MiniDoc extends React.Component {
 
   render(){
     return(
-      <div>
-      <button onClick={() => this.onTitle()}> {this.props.title} </button>
+      <div style={{display: 'inline'}}>
+        <button style={{height: 80, width: 80, margin: 10, border: 'solid 1px'}} onClick={() => this.onTitle()}> <strong> {this.props.title} </strong></button>
       </div>
     )
   }
