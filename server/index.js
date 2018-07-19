@@ -161,27 +161,20 @@ app.post('/create', (req, res)=> {
     if (err){
       res.json({"error": err});
     }else{
-      User.findById(req.body.userId, (err, user) => {
-        if(err){
-          res.json(err)
-        }
-        if(user){
-          user.docList.push(doc._id)
-          user.save(function(err, user){
-            if(err){
-              res.json({"error": err})
-            }if(user){
-              res.json({"status": 200})
-            }
+      User.findById(req.body.userId)
+      .then(user=> {
+        user.docList.push(doc._id);
+        user.save()
+        .then(()=> {
+          Document.findOne({
+            owner: req.body.userId,
+            title: req.body.title
+          }).then(result=> {
+            res.json({"docId": result._id})
+          }).catch(err=> {
+            res.json({"error": err});
           })
-        }
-      })
-
-      Document.findOne({
-        owner: req.body.userId,
-        title: req.body.title
-      }).then(result=> {
-        res.json({"docId": result._id});
+        })
       })
     }
   })

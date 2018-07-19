@@ -161,6 +161,7 @@ export default class Doc extends React.Component {
       //if no doc found(no one is currently editing it) use fetch
         axios.get("http://localhost:1337/getDocInfo?docId=" + this.props.docId)
         .then((json) => {
+          console.log(json.data);
           this.setState({
             editorState: json.data.document.content.length? EditorState.createWithContent(convertFromRaw(json.data.document.content[json.data.document.content.length-1])) : EditorState.createEmpty(),
             title: json.data.document.title,
