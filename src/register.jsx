@@ -52,26 +52,34 @@ class Register extends React.Component {
   render() {
     return (
       <div style={{
-  				display: 'flex',
-  				height: '100%',
-  				alignItems: 'center',
-  				justifyContent: 'center',
-  				backgroundColor: '#095997'
+        display: 'flex',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#ffffff'
   			}}>
       <div style={{
-				display: 'flex',
-        fontFamily: "Times New Roman",
-				flexDirection: 'column',
-				alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        fontFamily: "Lucida, sans-serif",
+        backgroundColor: '#a28baf',    //#ccf2ff
+        // borderStyle: 'solid',
+        // borderWidth: '3px',
+        alignItems: 'center',
+        margin: '30px',
         color: 'white',
-				backgroundColor: '#4C92C7',
 				margin: '20px',
-				paddingTop: '20px',
-        paddingBottom: '20px',
-        paddingLeft: '80px',
-        paddingRight: '80px'
+				paddingTop: '50px',
+        paddingBottom: '50px',
+        paddingLeft: '200px',
+        paddingRight: '200px'
 			}}>
         <h1>Register!</h1>
+        <br/>
+          <br/>
+            <br/>
+            <br/>
+            <br/>
         <div>
         <input onChange={e => this.onUsnChange(e)} placeholder="name"/>
         </div>
@@ -84,12 +92,15 @@ class Register extends React.Component {
         <input onChange={e => this.onRepeatChange(e)} type="password" placeholder="repeat password"/>
         </div>
         <br/>
+        <br/>
+          <br/>
+            <br/>
         <button onClick={() => this.onRegister()} style={{
-					backgroundColor: '#095997',
-          paddingTop: '5px',
-          paddingBottom: '5px',
-          paddingRight: '20px',
-          paddingLeft: '20px',
+					backgroundColor: '#c6b8ce',
+          paddingTop: '10px',
+          paddingBottom: '10px',
+          paddingRight: '35px',
+          paddingLeft: '35px',
           borderRadius: '12px',
           border: 'none',
           color: 'white',

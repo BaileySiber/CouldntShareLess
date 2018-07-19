@@ -36,21 +36,31 @@ class Login extends React.Component {
 				height: '100%',
 				alignItems: 'center',
 				justifyContent: 'center',
-				backgroundColor: '#095997'
+				backgroundColor: '#ffffff'
 			}}>
+		<br/>
 			<div style={{
 				display: 'flex',
 				flexDirection: 'column',
-				fontFamily: "Times New Roman",
-				backgroundColor: '#4C92C7',
+				fontFamily: "Lucida, sans-serif",
+				backgroundColor: '#a28baf',    //#ccf2ff
+				// borderStyle: 'solid',
+				// borderWidth: '3px',
 				alignItems: 'center',
 				margin: '30px',
 				color: 'white',
-				padding: '30px'
+				paddingBottom: '40px',
+				paddingLeft: '100px',
+				paddingRight: '100px'
 			}}>
-			<div><h1 style={{
-				fontSize: '40px'
-			}}>Couldn’t Share Less</h1></div>
+				<br/>
+					<br/>
+		<h1 style={{
+				fontSize: '45px'
+			}}>Couldn’t Share Less</h1>
+				<img style={{height: 150}}	src="./flat.png"/>
+				<br/>
+				<br/>
 			<div>
 				<input onChange={e => this.onUsnChange(e)} placeholder="name"/>
 			</div>
@@ -58,14 +68,14 @@ class Login extends React.Component {
 			<div>
 				<input onChange={e => this.onPassChange(e)} type="password" placeholder="password"/>
 			</div>
-			<br/>
+					<br/>
 			<div>
 				<button onClick={() => this.props.onLogin(this.state.usn, this.state.password)} style={{
-					backgroundColor: '#095997',
-					paddingTop: '5px',
-					paddingBottom: '5px',
-					paddingRight: '20px',
-					paddingLeft: '20px',
+					backgroundColor: '#c6b8ce',
+					paddingTop: '10px',
+					paddingBottom: '10px',
+					paddingRight: '35px',
+					paddingLeft: '35px',
 					color: 'white',
 					borderRadius: '12px',
 					border: 'none',
@@ -73,16 +83,16 @@ class Login extends React.Component {
 					textAlign: 'center',
 					display: 'inline-block',
 					fontSize: '14px',
-					margin: '10px'
+					margin: '20px'
 				}}>Login</button>
 			</div>
 			<div>
 				<button onClick={() => this.onRegister()} style={{
-					backgroundColor: '#095997',
-					paddingTop: '5px',
-					paddingBottom: '5px',
-					paddingRight: '20px',
-					paddingLeft: '20px',
+					backgroundColor: '#c6b8ce',
+					paddingTop: '10px',
+					paddingBottom: '10px',
+					paddingRight: '35px',
+					paddingLeft: '35px',
 					borderRadius: '12px',
 					color: 'white',
 					border: 'none',
