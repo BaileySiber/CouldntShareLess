@@ -10,15 +10,15 @@ var mongoose = require('mongoose');
 var draftJs = require('draft-js');
 var EditorState = draftJs.EditorState;
 var convertToRaw = draftJs.convertToRaw;
+var socketIO = require('socket.io')
 
-// import {EditorState} from 'draft-js';
-// var cors = require('cors');
 let app = express();
 
 // app.use(cors());
-
+// const server = http.Server(app)
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const io = socketIO(server)
+// const io = require('socket.io')(server);
 
 // var auth = require('./auth');
 const models = require('./models');
@@ -207,6 +207,19 @@ app.get('/getDocInfo', function(req, res){
   })
 })
 
+//add contributors
+app.post("/addCollaborator", function(req,res){
+  console.log("got to the /addCollaborator!")
+  Document.findById(docId)
+  .then(result => {
+    result.collaboratorList.push(userId)
+    res.json({"status": 200})
+  })
+  .catch(err => {
+    res.json({"status": err})
+  })
+})
+
 app.get('/getAllDocs', function(req, res){
   let userId = req.query.userId;
   let userDocs = [];
@@ -238,8 +251,8 @@ app.get('/getAllDocs', function(req, res){
 });
 
 //socket connect --> listening and emitting
-//
 io.on("connection", (socket) => {
+  console.log('io on connection');
   // socket.on("enterDoc", id => {
   //   Document.findById(id)
   //   .then(result => {
@@ -260,11 +273,19 @@ io.on("connection", (socket) => {
       }
 
     })
+  });
+
+  socket.on('setRoom', data => {
+    rooms[data.docId] = data.roomContent
   })
+
   socket.on("realtimeContent", data => {
     //find the room, then set the global variable
-    socket.to(data.id).emit("contentRender", data.content)
-  })
+    rooms[data.id] = data.content
+    socket.to(data.id).emit("contentRender", rooms[data.id])
+  });
+
+
 
   //mainpage listening
   // socket.on("addCollaborator", data => {
@@ -277,6 +298,6 @@ io.on("connection", (socket) => {
   //   })
   // })
 })
+server.listen(port);
 
-app.listen(port);
 console.log('Server running at http://127.0.0.1:1337/');
