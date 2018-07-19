@@ -77,22 +77,22 @@ export default class Main extends React.Component {
         />)
     }
     return(
-      <div style={{backgroundColor:"#4C92C7"}}>
-      <AppBar
+      <div style={{backgroundColor:"#a28baf", padding: "20px", paddingTop: "30px"}}>
+      {/* <AppBar
         title={this.state.title}
         onLeftIconButtonClick={() => this.showEditors}
-      />
-      <div style={{fontFamily:'Times New Roman', fontSize:"30px", padding: 10, color: "white"}}>
+      /> */}
+      <div style={{fontFamily:'Lucida, sans-serif', fontSize:"30px", padding: 10, color: "white"}}>
         Your Documents
         <button
           type="button"
           style={{
           width: "50px",
           height: "50px",
-          fontSize: "18px",
-          borderRadius: "25px",
+          border: 'none',
+          fontSize: "30x",
           color: "white",
-          backgroundColor: "#095997",
+          backgroundColor: "#c6b8ce",
           float: "right"
         }}
         onClick={()=> this.add()}>
@@ -100,12 +100,13 @@ export default class Main extends React.Component {
         </button>
       </div>
 
-      <div style={{display: 'inlineBlock', height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
+      <br/>
 
+      <div style={{display: 'inlineBlock', height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
           {miniUserDoc}
       </div>
 
-    <div style={{fontFamily:'Times New Roman', fontSize:"30px", padding: 10, color: "white"}}>
+    <div style={{fontFamily:'Lucida, sans-serif', fontSize:"30px", padding: 10, color: "white"}}>
     Shared Documents
     </div>
     <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
@@ -114,7 +115,15 @@ export default class Main extends React.Component {
 
     <div style={{padding:10}}>
     <input type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id.target.value})}></input>
-    <button onClick={()=> this.enterJoin()}>Enter</button>
+    <button style={{width: "50px",
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: "10px",
+    border: 'none',
+    margin: '20px',
+    fontSize: "30x",
+    color: "white",
+    backgroundColor: "#c6b8ce"}} onClick={()=> this.enterJoin()}>Enter</button>
     </div>
     </div>
   )
