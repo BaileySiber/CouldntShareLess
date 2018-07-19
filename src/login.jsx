@@ -85,6 +85,7 @@ class Login extends React.Component {
 					fontSize: '14px',
 					margin: '20px'
 				}}>Login</button>
+				
 			</div>
 			<div>
 				<button onClick={() => this.onRegister()} style={{

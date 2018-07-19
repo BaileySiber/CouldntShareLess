@@ -74,6 +74,7 @@ class Register extends React.Component {
         paddingLeft: '200px',
         paddingRight: '200px'
 			}}>
+      
         <h1>Register!</h1>
         <br/>
           <br/>

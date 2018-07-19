@@ -150,8 +150,6 @@ app.post('/create', (req, res)=> {
     title:
     password:
   }*/
-  console.log('create route', req.body);
-
   let newDoc = new Document({
     owner: req.body.userId,
     title: req.body.title,
@@ -159,7 +157,6 @@ app.post('/create', (req, res)=> {
     createdTime: new Date(),
   });
   newDoc.save(function(err, doc) {
-    console.log(doc);
     if (err){
       res.json({"error": err});
     }else{
@@ -176,15 +173,13 @@ app.post('/create', (req, res)=> {
 
 app.post('/save', function(req, res){
   //docId, content, title
+  console.log("saved document")
   Document.findById(req.body.docId)
   .then(result=> {
-    console.log('first find by id',result);
     Document.findByIdAndUpdate(req.body.docId, {
       content: result.content.concat(req.body.content),
       title: req.body.title
     }).then(newResult => {
-      console.log('first find by id',newResult);
-
       res.json({"status":"200"});
     })
   }).catch(err=> {
@@ -194,8 +189,6 @@ app.post('/save', function(req, res){
 
 //takes docId
 app.get('/getDocInfo', function(req, res){
-  console.log('get doc info');
-
   let docId = req.query.docId;
 
   Document.findById(docId)
@@ -208,15 +201,19 @@ app.get('/getDocInfo', function(req, res){
 })
 
 //add contributors
-app.post("/addCollaborator", function(req,res){
-  console.log("got to the /addCollaborator!")
-  Document.findById(docId)
+app.post("/addCollaborator", function(req, res) {
+  Document.findById(req.body.docId)
   .then(result => {
-    result.collaboratorList.push(userId)
-    res.json({"status": 200})
-  })
-  .catch(err => {
-    res.json({"status": err})
+    result.collaboratorList.push(req.body.userId);
+    result.save(err=>{
+      if (err){
+        res.json({"error":err})
+      }else{
+        res.json({"status": 200})
+      }
+    })
+  }).catch(err=>{
+    res.json({"error": err})
   })
 })
 
@@ -233,7 +230,7 @@ app.get('/getAllDocs', function(req, res){
           title: eachDoc.title,
           docId: eachDoc._id
         });
-      }else if (eachDoc.owner == userId){
+      }else if (eachDoc.owner === userId){
         userDocs.push({
           title: eachDoc.title,
           docId: eachDoc._id
@@ -245,14 +242,12 @@ app.get('/getAllDocs', function(req, res){
       collabDocs: collabDocs
     })
   }).catch(err=> {
-    console.log(err);
     res.json({"error": err});
   })
 });
 
 //socket connect --> listening and emitting
 io.on("connection", (socket) => {
-  console.log('io on connection');
   // socket.on("enterDoc", id => {
   //   Document.findById(id)
   //   .then(result => {
@@ -263,12 +258,14 @@ io.on("connection", (socket) => {
   //   })
   // })
   socket.on("join", (id) => {
-    console.log("joined the doc with docId")
+    console.log("SERVER --> 1.listening join")
     socket.join(id)
     io.in(id).clients((err, clientArr) => {
       if(clientArr.length === 1){
+        console.log("SERVER --> 2.emitting fetch")
         socket.emit("fetch")
       }else if (clientArr.length > 1){
+        console.log("SERVER --> emitting realtime")
         socket.emit("realtime", rooms[id])
       }
 
@@ -276,6 +273,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on('setRoom', data => {
+    console.log("SERVER --> listening setRoom")
     rooms[data.docId] = data.roomContent
   })
 
@@ -298,6 +296,7 @@ io.on("connection", (socket) => {
   //   })
   // })
 })
+
 server.listen(port);
 
 console.log('Server running at http://127.0.0.1:1337/');

@@ -139,7 +139,6 @@ export default class Doc extends React.Component {
   }
 
   showEditors() {
-    console.log('drawbar')
     this.setState({ showEditors: !this.state.showEditors })
   }
 
@@ -150,30 +149,18 @@ export default class Doc extends React.Component {
     //content
     const currentContent = convertToRaw(this.state.editorState.getCurrentContent());
     this.state.socket.emit("realtimeContent", {content:currentContent, id:this.props.docId})
-
-
-    //
   }
 
 
   componentDidMount(){
     this.state.socket.on('connect', () => {
-      console.log('connected on frontend');
-    //   this.state.socket.emit("enterDoc", this.props.docId)
-    //   this.state.socket.on("foundDoc", document => {
-    //     this.setState({
-    //       title: document.title,
-    //       editorState: document.content,
-    //       docId: document._id
-    //     })
-    //   })
       this.state.socket.emit("join", this.props.docId)
 
       this.state.socket.on("fetch", () => {
+        console.log("CLIENT --> 3.listening fetch")
       //if no doc found(no one is currently editing it) use fetch
         axios.get("http://localhost:1337/getDocInfo?docId=" + this.props.docId)
         .then((json) => {
-          console.log('componentDidMount json', json.data);
           this.setState({
             editorState: json.data.document.content.length? EditorState.createWithContent(convertFromRaw(json.data.document.content[json.data.document.content.length-1])) : EditorState.createEmpty(),
             title: json.data.document.title,
@@ -190,21 +177,18 @@ export default class Doc extends React.Component {
 
       this.state.socket.on("contentRender", content => {
         this.setState({
-          editorState: EditorState.createWithContent(convertFromRaw(content))
+          editorState: EditorState.createWithContent(convertFromRaw(content))// TEMP:
         })
       })
-
       // this.state.socket.on("realtime", (editorState) =>
       //   this.setState({
       //     editorState: EditorState.createWithContent(convertFromRaw(editorState))
       //   }))
     })
-
-
-
     //when people are already on the doc, use socket
     //edit --> unnecessary because already fetched, but learned to set up!
-
+  }
+  componentWillUnmount(){
 
   }
 
