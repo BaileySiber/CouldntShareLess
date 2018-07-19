@@ -211,6 +211,7 @@ app.get('/getDocInfo', function(req, res){
 
 //add contributors
 app.post("/addCollaborator", function(req, res) {
+  console.log('adding collaborator', req.body.userId);
   Document.findById(req.body.docId)
   .then(result => {
     result.collaboratorList.push(req.body.userId);
@@ -233,15 +234,18 @@ app.get('/getAllDocs', function(req, res){
 
   Document.find({})
   .then(results => {
-    console.log(results)
     results.forEach(eachDoc => {
-      if (eachDoc.collaboratorList.includes(userId)){
-        collabDocs.push({
+      console.log(typeof eachDoc.collaboratorList[0]._id, typeof userId);
+      if (eachDoc.owner.toString() === userId){
+        console.log('user doc match');
+        userDocs.push({
           title: eachDoc.title,
           docId: eachDoc._id
         });
-      }else if (eachDoc.owner === userId){
-        userDocs.push({
+      }
+      else if (eachDoc.collaboratorList.includes(userId)){
+        console.log('collab match');
+        collabDocs.push({
           title: eachDoc.title,
           docId: eachDoc._id
         });
@@ -267,24 +271,35 @@ io.on("connection", (socket) => {
   //     res.json({"error": err})
   //   })
   // })
+
+  //every person on the doc
   socket.on("join", (id) => {
+
     console.log("SERVER --> 1.listening join")
     socket.join(id)
     io.in(id).clients((err, clientArr) => {
+      console.log('client array ',clientArr);
+      //only person in the room
       if(clientArr.length === 1){
-        console.log("SERVER --> 2.emitting fetch")
+        console.log("SERVER --> 2.emitting fetch - person 1")
         socket.emit("fetch")
+
+        //else multiple people
       }else if (clientArr.length > 1){
-        console.log("SERVER --> emitting realtime")
-        socket.emit("realtime", rooms[id])
+        console.log("SERVER --> emitting realtime - person 2")
+        socket.emit("contentRender", rooms[id])
+
       }
 
     })
   });
 
+  //sets the initial content of the room
   socket.on('setRoom', data => {
+
     console.log("SERVER --> listening setRoom")
-    rooms[data.docId] = data.roomContent
+    rooms[data.docId] = data.roomContent;
+    console.log(rooms[data.docId]);
   })
 
   socket.on("realtimeContent", data => {
@@ -294,43 +309,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("closeDoc", id => {
-    socket.leave(id)
+    socket.leave(id);
+    io.in(id).clients((err, clientArr) => {
+      console.log('client array ',clientArr);
+      //only person in the room
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    })
   })
 
 
