@@ -189,7 +189,7 @@ export default class Doc extends React.Component {
     //edit --> unnecessary because already fetched, but learned to set up!
   }
   componentWillUnmount(){
-
+    this.state.socket.emit("closeDoc", this.props.docId)
   }
 
   render() {

@@ -22,6 +22,7 @@ export default class Main extends React.Component {
         myDocArray: json.userDocs,
         sharedDocArray: json.collabDocs
       })
+      console.log(json.userDocs)
     })
     .catch(err => console.log(err))
   }

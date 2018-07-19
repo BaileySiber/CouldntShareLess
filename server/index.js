@@ -155,11 +155,28 @@ app.post('/create', (req, res)=> {
     title: req.body.title,
     password: req.body.password,
     createdTime: new Date(),
+    collaboratorList: [req.body.userId],
   });
   newDoc.save(function(err, doc) {
     if (err){
       res.json({"error": err});
     }else{
+      User.findById(req.body.userId, (err, user) => {
+        if(err){
+          res.json(err)
+        }
+        if(user){
+          user.docList.push(doc._id)
+          user.save(function(err, user){
+            if(err){
+              res.json({"error": err})
+            }if(user){
+              res.json({"status": 200})
+            }
+          })
+        }
+      })
+
       Document.findOne({
         owner: req.body.userId,
         title: req.body.title
@@ -173,7 +190,6 @@ app.post('/create', (req, res)=> {
 
 app.post('/save', function(req, res){
   //docId, content, title
-  console.log("saved document")
   Document.findById(req.body.docId)
   .then(result=> {
     Document.findByIdAndUpdate(req.body.docId, {
@@ -224,6 +240,7 @@ app.get('/getAllDocs', function(req, res){
 
   Document.find({})
   .then(results => {
+    console.log(results)
     results.forEach(eachDoc => {
       if (eachDoc.collaboratorList.includes(userId)){
         collabDocs.push({
@@ -283,6 +300,45 @@ io.on("connection", (socket) => {
     socket.to(data.id).emit("contentRender", rooms[data.id])
   });
 
+  socket.on("closeDoc", id => {
+    socket.leave(id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  })
 
 
   //mainpage listening

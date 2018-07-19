@@ -13,9 +13,11 @@ var User = new Schema({
     type: String,
   },
   docList: {
-    type: Array,
-    default: [],
-  },
+    type: [{
+      type: ObjectId,
+      ref: 'documents',
+    }],
+  }
 });
 
 
