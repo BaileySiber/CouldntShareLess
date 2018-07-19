@@ -52,14 +52,24 @@ class Register extends React.Component {
   render() {
     return (
       <div style={{
+  				display: 'flex',
+  				height: '100%',
+  				alignItems: 'center',
+  				justifyContent: 'center',
+  				backgroundColor: '#095997'
+  			}}>
+      <div style={{
 				display: 'flex',
         fontFamily: "Times New Roman",
 				flexDirection: 'column',
 				alignItems: 'center',
         color: 'white',
 				backgroundColor: '#4C92C7',
-				margin: '10px',
-				padding: '30px'
+				margin: '20px',
+				paddingTop: '20px',
+        paddingBottom: '20px',
+        paddingLeft: '80px',
+        paddingRight: '80px'
 			}}>
         <h1>Register!</h1>
         <div>
@@ -90,6 +100,7 @@ class Register extends React.Component {
 					margin: '10px'
 				}}>Register</button>
       </div>
+    </div>
     )
   }
 

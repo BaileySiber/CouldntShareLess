@@ -33,15 +33,24 @@ class Login extends React.Component {
 		return (
 			<div style={{
 				display: 'flex',
+				height: '100%',
+				alignItems: 'center',
+				justifyContent: 'center',
+				backgroundColor: '#095997'
+			}}>
+			<div style={{
+				display: 'flex',
 				flexDirection: 'column',
 				fontFamily: "Times New Roman",
 				backgroundColor: '#4C92C7',
 				alignItems: 'center',
-				margin: '10px',
+				margin: '30px',
 				color: 'white',
 				padding: '30px'
 			}}>
-			<div><h1>Login to Hoc-Editor!</h1></div>
+			<div><h1 style={{
+				fontSize: '40px'
+			}}>Couldn’t Share Less</h1></div>
 			<div>
 				<input onChange={e => this.onUsnChange(e)} placeholder="name"/>
 			</div>
@@ -83,8 +92,8 @@ class Login extends React.Component {
 					fontSize: '14px',
 				}}>Register</button>
 			</div>
-
 		</div>
+	</div>
 	);
 }
 
