@@ -26,6 +26,8 @@ const User = models.User;
 const Document= models.Document;
 const port = 1337;
 
+var rooms = {};
+
 mongoose.connect(process.env.MONGODB_URI);
 
 var validateReq = function(userData) {
@@ -247,13 +249,33 @@ io.on("connection", (socket) => {
   //     res.json({"error": err})
   //   })
   // })
-  socket.on("docId", (id) => {
+  socket.on("join", (id) => {
+    console.log("joined the doc with docId")
     socket.join(id)
+    io.in(id).clients((err, clientArr) => {
+      if(clientArr.length === 1){
+        socket.emit("fetch")
+      }else if (clientArr.length > 1){
+        socket.emit("realtime", rooms[id])
+      }
+
+    })
   })
   socket.on("realtimeContent", data => {
+    //find the room, then set the global variable
     socket.to(data.id).emit("contentRender", data.content)
   })
 
+  //mainpage listening
+  // socket.on("addCollaborator", data => {
+  //   console.log("listening: " + data)
+  //   Document.findById(data.docId, function(foundDoc, err){
+  //     if(err){
+  //       console.log(err)
+  //     }
+  //     foundDoc.collaboratorList.push(data.userId)
+  //   })
+  // })
 })
 
 app.listen(port);

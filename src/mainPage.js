@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+const io = require('socket.io-client');
 export default class Main extends React.Component {
   constructor(){
     super();
+    this.socket = io("http://127.0.0.1:1337/")
     this.state={
       docId: "",
       myDocArray: [],
@@ -28,7 +29,8 @@ export default class Main extends React.Component {
   enterJoin() {
     //add contributor
     //if you click, open the doc
-     socket.emit("addCollaborator", {docId: this.state.docId, userId:this.props.userId})
+    //fetch post collaborator
+     this.props.navigate("doc", this.props.userId, this.state.docId)
   }
   add(){
     //when you click, navigate to newDoc component
@@ -84,7 +86,7 @@ export default class Main extends React.Component {
     </div>
 
     <div style={{padding:10}}>
-    <input type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id})}></input>
+    <input type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id.target.value})}></input>
     <button onClick={()=> this.enterJoin()}>Enter</button>
     </div>
     </div>
