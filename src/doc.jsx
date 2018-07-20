@@ -11,9 +11,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios'
-
 import io from 'socket.io-client'
-
 
 
 const customStyleMap = {
@@ -224,13 +222,13 @@ export default class Doc extends React.Component {
   					textAlign: 'center',
   					display: 'inline-block',
   					fontSize: '20px',
-  				}}><img style={{height: 30}} src="./house.jpg"/></button>}
+  				}}>
+          <img style={{height: 30}} src="./house.jpg"/></button>}
           onRightIconButtonClick={() => this.exit()}
           style={{backgroundColor: '#a28baf'}}
         />
-        <Drawer open={this.state.showEditors} width='40%' style={{fontSize: '15px'}}>
-          <MenuItem>Owner: </MenuItem>
-          <MenuItem>{this.state.owner}</MenuItem>
+        <Drawer open={this.state.showEditors} width='50%' style={{fontSize: '15px'}}>
+          <MenuItem>Owner: {this.state.owner}</MenuItem>
           <MenuItem>Collaborators: <br/> <ul>{this.state.collaborators.map(user => <li>{user}</li>)}</ul></MenuItem>
           <MenuItem>Shareable Id: {this.props.docId}</MenuItem>
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
@@ -243,6 +241,9 @@ export default class Doc extends React.Component {
           <div style={{ flex: '1 0 25%', }}>
             <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '35px' }}>
               <ToolbarGroup>
+                <select onChange={e => this.toggleHistory(e.target.value)}>
+                  {options()}
+                </select>
                 <ToolbarSeparator />
                 <button onMouseDown={e => this.onBoldClick(e)}>B</button>
                 <button onMouseDown={e => this.onItalicClick(e)}>I</button>
