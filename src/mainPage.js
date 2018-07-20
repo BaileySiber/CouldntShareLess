@@ -77,12 +77,13 @@ export default class Main extends React.Component {
         />)
     }
     return(
-      <div style={{backgroundColor:"#a28baf", padding: "20px", paddingTop: "30px"}}>
+      <div style={{backgroundColor:"white", padding: "20px", paddingTop: "30px", border: "solid 15px", borderColor: "#a28baf"}}>
       {/* <AppBar
         title={this.state.title}
         onLeftIconButtonClick={() => this.showEditors}
       /> */}
-      <div style={{fontFamily:'Lucida, sans-serif', fontSize:"30px", padding: 10, color: "white"}}>
+      <br/>
+      <div style={{fontFamily:'Lucida, sans-serif', fontSize:"40px", padding: 10, color: "#a28baf"}}>
         Your Documents
         <button
           type="button"
@@ -99,22 +100,24 @@ export default class Main extends React.Component {
           Add
         </button>
       </div>
-
-      <br/>
-
-      <div style={{display: 'inlineBlock', height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
+      <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf"}}>
           {miniUserDoc}
       </div>
-
-    <div style={{fontFamily:'Lucida, sans-serif', fontSize:"30px", padding: 10, color: "white"}}>
+<br/>
+<br/>
+    <br/>
+    <div style={{fontFamily:'Lucida, sans-serif', fontSize:"40px", padding: 10, color: "#a28baf"}}>
     Shared Documents
     </div>
-    <div style={{height: "100px", border:"solid 1px", margin: 10, borderColor: "white"}}>
+    <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf"}}>
       {miniSharedDoc}
     </div>
 
     <div style={{padding:10}}>
-    <input type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id.target.value})}></input>
+    <input style={{
+      border: "solid 3px",
+      borderColor: "#c6b8ce"
+    }}type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id.target.value})}></input>
     <button style={{width: "50px",
     textAlign: 'center',
     display: 'inline-block',
@@ -145,7 +148,7 @@ class MiniDoc extends React.Component {
         display: "flex",
         flexDirection: "vertical"
       }}>
-        <button style={{backgroundColor: "white", height: 80, width: 80, margin: 10, border: 'solid 5px', borderColor: "#c6b8ce"}} onClick={() => this.onTitle()}> {this.props.title} </button>
+        <button style={{backgroundColor: "white", height: 80, width: 80, margin: 10, fontSize: '15px', border: 'solid 1px', borderColor: "black"}} onClick={() => this.onTitle()}> {this.props.title} </button>
       </div>
     )
   }

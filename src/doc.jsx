@@ -216,6 +216,7 @@ export default class Doc extends React.Component {
           onLeftIconButtonClick={this.showEditors.bind(this)}
           iconElementRight={<FlatButton label="Main"/>}
           onRightIconButtonClick={() => this.exit()}
+          style={{backgroundColor: '#a28baf'}}
         />
         <Drawer open={this.state.showEditors} width='17%'>
           <MenuItem>Owner: </MenuItem>
@@ -231,7 +232,7 @@ export default class Doc extends React.Component {
         </div>
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
           <div style={{ flex: '1 0 25%' }}>
-            <Toolbar style={{ textAlign: 'center', backgroundColor: '#53BEEC', height: '35px' }}>
+            <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '35px' }}>
               <ToolbarGroup>
                 <ToolbarSeparator />
                 <button onMouseDown={e => this.onBoldClick(e)}>B</button>
@@ -272,7 +273,21 @@ export default class Doc extends React.Component {
               blockStyleFn={blockStyle}
             />
           </div>
-          <RaisedButton label="Save" primary={true} onClick={this.saveDoc.bind(this)} />
+        <br/>
+          <button onClick={this.saveDoc.bind(this)} style={{
+            backgroundColor: '#a28baf',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+            marginRight: '300px',
+            marginLeft: '300px',
+            borderRadius: '12px',
+            color: 'white',
+            border: 'none',
+            fontFamily: "Times New Roman",
+            textAlign: 'center',
+            display: 'inline-block',
+            fontSize: '14px',
+          }}>Save</button>
         </div>
       </div>
     );
