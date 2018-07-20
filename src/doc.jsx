@@ -228,12 +228,11 @@ export default class Doc extends React.Component {
           onRightIconButtonClick={() => this.exit()}
           style={{backgroundColor: '#a28baf'}}
         />
-        <Drawer open={this.state.showEditors} width='40%'>
+        <Drawer open={this.state.showEditors} width='40%' style={{fontSize: '15px'}}>
           <MenuItem>Owner: </MenuItem>
           <MenuItem>{this.state.owner}</MenuItem>
-          <MenuItem>Collaborators: <br/> {this.state.collaborators}</MenuItem>
-          <MenuItem>Shareable Id: {this.state.docId}</MenuItem>
-          {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
+          <MenuItem>Collaborators: <br/> <ul>{this.state.collaborators.map(user => <li>{user}</li>)}</ul></MenuItem>
+          <MenuItem>Shareable Id: {this.props.docId}</MenuItem>
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
