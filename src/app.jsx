@@ -77,7 +77,7 @@ export default class App extends React.Component {
           {this.state.currPage === "newDoc" ?
           <NewDoc userId = {this.state.userId} navigate = {this.navigate} /> : null }
           {this.state.currPage === "history" ?
-          <History userId = {this.state.userId} navigate = {this.navigate} /> : null }
+          <History username={this.state.username} userId = {this.state.userId} docId={this.state.docId} navigate = {this.navigate} /> : null }
 
         </div>
       );
