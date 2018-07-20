@@ -141,8 +141,11 @@ class MiniDoc extends React.Component {
 
   render(){
     return(
-      <div>
-        <button style={{height: 80, width: 80, margin: 10, border: 'solid 1px'}} onClick={() => this.onTitle()}> <strong> {this.props.title} </strong></button>
+      <div style={{
+        display: "flex",
+        flexDirection: "vertical"
+      }}>
+        <button style={{backgroundColor: "white", height: 80, width: 80, margin: 10, border: 'solid 5px', borderColor: "#c6b8ce"}} onClick={() => this.onTitle()}> {this.props.title} </button>
       </div>
     )
   }

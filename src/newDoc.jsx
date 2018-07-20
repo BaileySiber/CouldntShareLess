@@ -5,9 +5,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 import axios from 'axios';
 
 const style = {
-  height: '70%',
-  width: '50%',
+  height: '100%',
+  width: '70%',
   margin: 20,
+  padding: 50,
   textAlign: 'center',
   justifyContent: 'center',
   display: 'inline-block',
@@ -51,11 +52,27 @@ export default class CreateDoc extends React.Component {
             onChange={e => this.setState({ docPassword: e.target.value })}
           />
           <TextField
+
             floatingLabelText="Document Title"
             defaultValue="Untitled"
             onChange={e => this.setState({ title: e.target.value })}
           />
-          <RaisedButton label="Create" primary={true} onClick={this.createDoc.bind(this)} />
+        <br/>
+        <br/>
+          <button style={{
+            backgroundColor: '#c6b8ce',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+            paddingRight: '35px',
+            paddingLeft: '35px',
+            borderRadius: '12px',
+            color: 'white',
+            border: 'none',
+            fontFamily: "Times New Roman",
+            textAlign: 'center',
+            display: 'inline-block',
+            fontSize: '14px',
+          }} onClick={this.createDoc.bind(this)}>Create</button>
         </Paper>
       </div>
     )
