@@ -19,7 +19,6 @@ export default class CreateDoc extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
       title: '',
     };
   }
@@ -39,11 +38,6 @@ export default class CreateDoc extends React.Component {
       <div style={{textAlign: 'center',
       justifyContent: 'center'}}>
         <Paper style={style} zDepth={2}>
-          <TextField
-            hintText="Username"
-            floatingLabelText="username"
-            onChange={e => this.setState({ username: e.target.value })}
-          />
           <TextField
 
             floatingLabelText="Document Title"
