@@ -101,8 +101,12 @@ export default class Main extends React.Component {
         </button>
       </div>
       <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf"}}>
+      <table>
+        <tr>
           {miniUserDoc}
-      </div>
+        </tr>
+      </table>
+    </div>
 <br/>
 <br/>
     <br/>
@@ -110,7 +114,11 @@ export default class Main extends React.Component {
     Shared Documents
     </div>
     <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf"}}>
-      {miniSharedDoc}
+      <table>
+        <tr>
+          {miniSharedDoc}
+        </tr>
+      </table>
     </div>
 
     <div style={{padding:10}}>
@@ -144,12 +152,9 @@ class MiniDoc extends React.Component {
 
   render(){
     return(
-      <div style={{
-        display: "flex",
-        flexDirection: "vertical"
-      }}>
+      <th>
         <button style={{backgroundColor: "white", height: 80, width: 80, margin: 10, fontSize: '15px', border: 'solid 1px', borderColor: "black"}} onClick={() => this.onTitle()}> {this.props.title} </button>
-      </div>
+      </th>
     )
   }
 }

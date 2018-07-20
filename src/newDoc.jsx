@@ -72,7 +72,23 @@ export default class CreateDoc extends React.Component {
             textAlign: 'center',
             display: 'inline-block',
             fontSize: '14px',
+            margin: '2px'
           }} onClick={this.createDoc.bind(this)}>Create</button>
+          <button style={{
+            backgroundColor: '#c6b8ce',
+            paddingTop: '10px',
+            paddingBottom: '10px',
+            paddingRight: '35px',
+            paddingLeft: '35px',
+            borderRadius: '12px',
+            color: 'white',
+            border: 'none',
+            fontFamily: "Times New Roman",
+            textAlign: 'center',
+            display: 'inline-block',
+            fontSize: '14px',
+            margin: '2px'
+          }} onClick={()=> this.props.navigate("main")}> Cancel </button>
         </Paper>
       </div>
     )
