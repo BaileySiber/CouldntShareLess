@@ -49,17 +49,16 @@ var Document = new Schema({
   password: {
     type: String,
   },
+
   createdTime: {
     type: Date,
   },
+
   lastEditTime: {
-    type: Date,
-  },
-},
-  {
-    minimize: false,
-  },
-);
+    type: Array,
+    default: []
+  }
+});
 
 var Document = mongoose.model('documents', Document)
 

@@ -43,7 +43,7 @@ app.post('/login', (req, res)=> {
   User.findOne({username: req.body.username})
   .then(result=> {
     if (result.password === req.body.password){
-      res.json({"userId":result._id});
+      res.json({"userId":result._id, "username": result.username});
     }else{
       res.json({"status": "abcincorrect credentials"});
     }
@@ -101,6 +101,7 @@ app.post('/create', (req, res)=> {
     password: req.body.password,
     createdTime: new Date(),
     collaboratorList: [req.body.userId],
+    lastEditTime: []
   });
   newDoc.save(function(err, doc) {
     if (err){
@@ -128,12 +129,17 @@ app.post('/create', (req, res)=> {
 
 app.post('/save', function(req, res){
   //docId, content, title
+
   Document.findById(req.body.docId)
   .then(result=> {
+    let lastEditTimeArray = result.lastEditTime;
+    lastEditTimeArray.push(new Date());
     Document.findByIdAndUpdate(req.body.docId, {
       content: result.content.concat(req.body.content),
-      title: req.body.title
+      title: req.body.title,
+      lastEditTime: lastEditTimeArray
     }).then(newResult => {
+      console.log(newResult);
       res.json({"status":"200"});
     })
   }).catch(err=> {
@@ -157,18 +163,24 @@ app.get('/getDocInfo', function(req, res){
 //add contributors,
 // expects userId, docId,
 app.post("/addCollaborator", function(req, res) {
-  Document.findById(req.body.docId)
-  .then(result => {
-    result.collaboratorList.push(req.body.userId);
-    result.save(err=>{
-      if (err){
-        res.json({"error":err})
-      }else{
-        res.json({"status": 200})
-      }
+  let username = '';
+  User.findById(req.body.userId)
+  .then(user => {
+    username = user.username;
+  }).then(()=> {
+    Document.findById(req.body.docId)
+    .then(result => {
+      result.collaboratorList.push(username);
+      result.save(err=>{
+        if (err){
+          res.json({"error":err})
+        }else{
+          res.json({"status": 200})
+        }
+      })
+    }).catch(err=>{
+      res.json({"error": err})
     })
-  }).catch(err=>{
-    res.json({"error": err})
   })
 })
 
@@ -206,15 +218,6 @@ app.get('/getAllDocs', function(req, res){
 
 //socket connect --> listening and emitting
 io.on("connection", (socket) => {
-  // socket.on("enterDoc", id => {
-  //   Document.findById(id)
-  //   .then(result => {
-  //     socket.emit("foundDoc", result)
-  //   })
-  //   .catch(err => {
-  //     res.json({"error": err})
-  //   })
-  // })
 
   //every person on the doc
   socket.on("join", (id) => {

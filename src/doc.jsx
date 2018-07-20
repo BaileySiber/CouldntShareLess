@@ -126,6 +126,13 @@ export default class Doc extends React.Component {
     this.onChange(newEditorState);
   }
 
+  // toggleHistory(e){
+    //e is going to be a click on a certain timestamp
+    //send that timestamp to the backend
+    //findone from content array that matches timestamp
+    //pass editor state back to the frontend
+    //update editor state
+  // }
 
   toggleColor(color) {
     const newEditorState = styles.color.toggle(this.state.editorState, color);
@@ -241,9 +248,9 @@ export default class Doc extends React.Component {
           <div style={{ flex: '1 0 25%', }}>
             <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '35px' }}>
               <ToolbarGroup>
-                <select onChange={e => this.toggleHistory(e.target.value)}>
-                  {options()}
-                </select>
+                {/* <select onChange={e => this.toggleHistory(e.target.value)}>
+                 {options()}
+                </select> */}
                 <ToolbarSeparator />
                 <button onMouseDown={e => this.onBoldClick(e)}>B</button>
                 <button onMouseDown={e => this.onItalicClick(e)}>I</button>
