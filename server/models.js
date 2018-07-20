@@ -58,7 +58,11 @@ var Document = new Schema({
     type: Array,
     default: []
   }
-});
+},
+{
+  minimize: false
+}
+);
 
 var Document = mongoose.model('documents', Document)
 

@@ -88,7 +88,7 @@ export default class Doc extends React.Component {
   }
 
   history() {
-    this.props.navigate('history')
+    this.props.navigate('history', this.props.userId ,this.props.docId)
   }
 
   saveDoc() {
@@ -130,13 +130,6 @@ export default class Doc extends React.Component {
     this.onChange(newEditorState);
   }
 
-  // toggleHistory(e){
-    //e is going to be a click on a certain timestamp
-    //send that timestamp to the backend
-    //findone from content array that matches timestamp
-    //pass editor state back to the frontend
-    //update editor state
-  // }
 
   toggleColor(color) {
     const newEditorState = styles.color.toggle(this.state.editorState, color);
@@ -181,7 +174,7 @@ export default class Doc extends React.Component {
         axios.get("http://localhost:1337/getDocInfo?docId=" + this.props.docId)
         .then((json) => {
           this.setState({
-            editorState: json.data.document.content.length? EditorState.createWithContent(convertFromRaw(json.data.document.content[json.data.document.content.length-1])) : EditorState.createEmpty(),
+            editorState: (json.data.document.content.length ? EditorState.createWithContent(convertFromRaw(json.data.document.content[json.data.document.content.length-1])) : EditorState.createEmpty()),
             title: json.data.document.title,
             owner: json.data.document.owner.username,
             collaborators: json.data.document.collaboratorList
@@ -192,8 +185,6 @@ export default class Doc extends React.Component {
             })
           });
         }).catch(err => console.log('ErRor', err))
-
-
       });
 
       this.state.socket.on("contentRender", content => {
@@ -217,6 +208,9 @@ export default class Doc extends React.Component {
     const options = x => x.map(fontSize => {
       return <option key={fontSize} value={fontSize}>{fontSize}</option>;
     });
+
+    // console.log('*******', this.state);
+
 
     return (
       <div>
@@ -243,6 +237,7 @@ export default class Doc extends React.Component {
           <MenuItem>Collaborators: <br/> <ul>{this.state.collaborators.map(user => <li>{user}</li>)}</ul></MenuItem>
           <MenuItem>Shareable Id: {this.props.docId}</MenuItem>
           <RaisedButton label="View History" onClick={() => this.history()} />
+          <br/>
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -253,9 +248,6 @@ export default class Doc extends React.Component {
           <div style={{ flex: '1 0 25%', }}>
             <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '35px' }}>
               <ToolbarGroup>
-                {/* <select onChange={e => this.toggleHistory(e.target.value)}>
-                 {options()}
-                </select> */}
                 <ToolbarSeparator />
                 <button onMouseDown={e => this.onBoldClick(e)}>B</button>
                 <button onMouseDown={e => this.onItalicClick(e)}>I</button>

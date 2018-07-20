@@ -31,8 +31,8 @@ export default class CreateDoc extends React.Component {
         title: this.state.title,
         password: this.state.docPassword,
     }).then(json => {
-      console.log(json.data.docId)
-      this.props.navigate("doc", this.props.userId, json.data.docId)
+      console.log(json.data.docId);
+      this.props.navigate("doc", this.props.userId, json.data.docId);
     }).catch((err) => console.log(err))
   }
 

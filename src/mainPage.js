@@ -44,6 +44,7 @@ export default class Main extends React.Component {
       return res.json();
     }).then(json=> {
       if (json.status === 200){
+        console.log(this.props.userId, this.state.docId);
         this.props.navigate("doc", this.props.userId, this.state.docId)
       }
     })

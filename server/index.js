@@ -251,7 +251,6 @@ io.on("connection", (socket) => {
 
   //sets the initial content of the room
   socket.on('setRoom', data => {
-
     rooms[data.docId] = data.roomContent;
   })
 
