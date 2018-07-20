@@ -133,10 +133,11 @@ app.post('/save', function(req, res){
   Document.findById(req.body.docId)
   .then(result=> {
     let lastEditTimeArray = result.lastEditTime;
+    let oldTitle = result.title;
     lastEditTimeArray.push(new Date());
     Document.findByIdAndUpdate(req.body.docId, {
       content: result.content.concat(req.body.content),
-      title: req.body.title,
+      title: req.body.title? req.body.title : result.title,
       lastEditTime: lastEditTimeArray
     }).then(newResult => {
       console.log(newResult);
