@@ -87,6 +87,10 @@ export default class Doc extends React.Component {
     this.props.navigate('main')
   }
 
+  history() {
+    this.props.navigate('history')
+  }
+
   saveDoc() {
     fetch('http://localhost:1337/save', {
       method: 'POST',
@@ -96,7 +100,7 @@ export default class Doc extends React.Component {
       body: JSON.stringify({
         docId: this.props.docId,
         content: convertToRaw(this.state.editorState.getCurrentContent()),
-        title: this.state.title
+        title: this.state.title,
       })
     }).then((res) => {
       if(res.status === 200) {
@@ -238,6 +242,7 @@ export default class Doc extends React.Component {
           <MenuItem>Owner: {this.state.owner}</MenuItem>
           <MenuItem>Collaborators: <br/> <ul>{this.state.collaborators.map(user => <li>{user}</li>)}</ul></MenuItem>
           <MenuItem>Shareable Id: {this.props.docId}</MenuItem>
+          <RaisedButton label="View History" onClick={() => this.history()} />
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
         </Drawer>
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
