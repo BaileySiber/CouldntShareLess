@@ -55,8 +55,9 @@ var Document = new Schema({
   },
 
   lastEditTime: {
-    type: Array,
-    default: []
+    type: [{
+      type: Date,
+    }],
   }
 },
 {
