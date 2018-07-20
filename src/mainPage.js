@@ -2,11 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {
-  Table,
-  TableBody,
-  TableRow,
-} from 'material-ui/Table';
 const io = require('socket.io-client');
 export default class Main extends React.Component {
   constructor(){
@@ -82,56 +77,51 @@ export default class Main extends React.Component {
         />)
     }
     return(
-      <div style={{ padding: "20px", paddingTop: "30px", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+      <div style={{backgroundColor:"white", padding: "20px", paddingTop: "30px", border: "solid 15px", borderColor: "#a28baf"}}>
       {/* <AppBar
         title={this.state.title}
         onLeftIconButtonClick={() => this.showEditors}
       /> */}
       <br/>
-      <div style={{flex: 1, fontFamily:'Lucida, sans-serif', fontSize:"30px", padding: 10, color: "#a28baf"}}>
-        {this.props.username}'s Doc
-
-      <div style={{ height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf", overflow: 'auto'}}>
-      <table>
+      <div style={{fontFamily:'Lucida, sans-serif', fontSize:"40px", padding: 10, color: "#a28baf"}}>
+        {this.props.username}'s Documents
+        <button
+          type="button"
+          style={{
+          width: "50px",
+          height: "50px",
+          border: 'none',
+          fontSize: "30x",
+          color: "white",
+          backgroundColor: "#c6b8ce",
+          float: "right"
+        }}
+        onClick={()=> this.add()}>
+          Add
+        </button>
+      </div>
+      <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf", overflow: 'auto'}}>
+      <table style={{width: '100%'}}>
           {miniUserDoc}
       </table>
     </div>
+<br/>
+<br/>
+    <br/>
+    <div style={{fontFamily:'Lucida, sans-serif', fontSize:"40px", padding: 10, color: "#a28baf"}}>
+    Shared Documents
     </div>
-
-    <div style={{flex: 1}}>
-    <div style={{fontFamily:'Lucida, sans-serif', fontSize:'30px', padding: 10, color: "#a28baf"}}>
-    Shared Doc
-    </div>
-    <div style={{ height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf", overflow: 'auto'}}>
+    <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf"}}>
       <table>
           {miniSharedDoc}
       </table>
     </div>
-  </div>
 
-    <div style={{padding:10, flex: 1}}>
-      <div style={{display:'flex', flexDirection:"column"}}>
-        <div style={{flex: 1}}>
-      <button
-        type="button"
-        style={{
-        width: "50px",
-        height: "50px",
-        border: 'none',
-        fontSize: "30x",
-        color: "white",
-        backgroundColor: "#c6b8ce",
-        float: "right"
-      }}
-      onClick={()=> this.add()}>
-        Add
-      </button>
-      </div>
-      <div style={{flex: 1}}>
+    <div style={{padding:10}}>
     <input style={{
       border: "solid 3px",
       borderColor: "#c6b8ce"
-    }} type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id.target.value})}></input>
+    }}type="string" placeholder="Document Id" onChange={(id)=> this.setState({docId: id.target.value})}></input>
     <button style={{width: "50px",
     textAlign: 'center',
     display: 'inline-block',
@@ -141,8 +131,6 @@ export default class Main extends React.Component {
     fontSize: "30x",
     color: "white",
     backgroundColor: "#c6b8ce"}} onClick={()=> this.enterJoin()}>Enter</button>
-    </div>
-    </div>
     </div>
     </div>
   )
@@ -160,8 +148,10 @@ class MiniDoc extends React.Component {
 
   render(){
     return(
-      <tr>
-        <button style={{backgroundColor: "white", height: 30, margin: 10, fontSize: '15px', border: 'solid 1px', borderColor: "black"}} onClick={() => this.onTitle()}> {this.props.title} </button>
+      <tr style={{align: 'center'}}>
+        <th>
+          <button style={{backgroundColor: "white", height: 80, width: '90%', margin: 10, fontSize: '200%', border: 'solid 1px', borderColor: "black"}} onClick={() => this.onTitle()}> {this.props.title} </button>
+        </th>
       </tr>
     )
   }
