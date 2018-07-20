@@ -216,6 +216,18 @@ app.get('/getAllDocs', function(req, res){
   })
 });
 
+
+app.get('/getHistory', function(req, res){
+  let docId = req.query.docId;
+  Document.findById(docId)
+  .then(doc => {
+    res.json({
+      content: doc.content,
+      lastEditTime: doc.lastEditTime
+    });
+  }).catch(err=> res.json({"error": err}));
+})
+
 //socket connect --> listening and emitting
 io.on("connection", (socket) => {
 
