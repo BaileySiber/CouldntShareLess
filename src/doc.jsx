@@ -214,14 +214,24 @@ export default class Doc extends React.Component {
         <AppBar
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
-          iconElementRight={<FlatButton label="Main"/>}
+          iconElementRight={<button style={{
+  					color: 'white',
+  					border: 'none',
+            marginRight: "10px",
+            marginTop: "8px",
+            backgroundColor: "#a28baf",
+  					fontFamily: "Times New Roman",
+  					textAlign: 'center',
+  					display: 'inline-block',
+  					fontSize: '20px',
+  				}}><img style={{height: 30}} src="./house.jpg"/></button>}
           onRightIconButtonClick={() => this.exit()}
           style={{backgroundColor: '#a28baf'}}
         />
-        <Drawer open={this.state.showEditors} width='17%'>
+        <Drawer open={this.state.showEditors} width='40%'>
           <MenuItem>Owner: </MenuItem>
-          <MenuItem>  {this.state.owner}</MenuItem>
-          <MenuItem>Collaborators: </MenuItem>
+          <MenuItem>{this.state.owner}</MenuItem>
+          <MenuItem>Collaborators: <br/> {this.state.collaborators}</MenuItem>
           <MenuItem>Shareable Id: {this.state.docId}</MenuItem>
           {this.state.collaborators.map(user => <MenuItem>{user}</MenuItem>)}
           <RaisedButton label="Close" onClick={this.showEditors.bind(this)} />
@@ -231,7 +241,7 @@ export default class Doc extends React.Component {
             value={this.state.title} />
         </div>
         <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
-          <div style={{ flex: '1 0 25%' }}>
+          <div style={{ flex: '1 0 25%', }}>
             <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '35px' }}>
               <ToolbarGroup>
                 <ToolbarSeparator />
@@ -278,8 +288,8 @@ export default class Doc extends React.Component {
             backgroundColor: '#a28baf',
             paddingTop: '10px',
             paddingBottom: '10px',
-            marginRight: '300px',
-            marginLeft: '300px',
+            marginRight: '30%',
+            marginLeft: '30%',
             borderRadius: '12px',
             color: 'white',
             border: 'none',
