@@ -7,6 +7,7 @@ import Login from './login';
 import Register from './register';
 import Main from './mainPage';
 import NewDoc from './newDoc';
+import History from './history'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class App extends React.Component {
     this.state = {
       currPage: "login",
       userId: null,
-      docId: null
+      docId: null,
+      username: '',
     }
   }
 
@@ -53,7 +55,7 @@ export default class App extends React.Component {
       console.log(resultJson + 'in resultjson')
       if (resultJson.userId) {
         console.log('found user')
-        this.setState({userId: resultJson.userId})
+        this.setState({userId: resultJson.userId, username: resultJson.username})
         this.navigate("main")
       }
     }).catch(err => console.log(err))
@@ -69,11 +71,14 @@ export default class App extends React.Component {
           {this.state.currPage === "register" ?
           <Register navigate = {this.navigate} /> : null }
           {this.state.currPage === "main" ?
-          <Main userId = {this.state.userId} navigate = {this.navigate} /> : null }
+          <Main userId = {this.state.userId} navigate = {this.navigate} username = {this.state.username} /> : null }
           {this.state.currPage === "doc" ?
           <Doc userId = {this.state.userId} docId = {this.state.docId} navigate = {this.navigate} /> : null }
           {this.state.currPage === "newDoc" ?
           <NewDoc userId = {this.state.userId} navigate = {this.navigate} /> : null }
+          {this.state.currPage === "history" ?
+          <History userId = {this.state.userId} navigate = {this.navigate} /> : null }
+
         </div>
       );
     }
