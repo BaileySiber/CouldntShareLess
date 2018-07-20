@@ -20,7 +20,6 @@ export default class CreateDoc extends React.Component {
     super(props);
     this.state = {
       username: '',
-      docPassword: '',
       title: '',
     };
   }
@@ -29,7 +28,6 @@ export default class CreateDoc extends React.Component {
     axios.post('http://localhost:1337/create', {
         userId: this.props.userId,
         title: this.state.title,
-        password: this.state.docPassword,
     }).then(json => {
       console.log(json.data.docId);
       this.props.navigate("doc", this.props.userId, json.data.docId);
@@ -45,11 +43,6 @@ export default class CreateDoc extends React.Component {
             hintText="Username"
             floatingLabelText="username"
             onChange={e => this.setState({ username: e.target.value })}
-          />
-          <TextField
-            hintText="Password to access the doc"
-            floatingLabelText="password"
-            onChange={e => this.setState({ docPassword: e.target.value })}
           />
           <TextField
 

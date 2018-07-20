@@ -89,8 +89,8 @@ export default class Main extends React.Component {
         <button
           type="button"
           style={{
-          width: "50px",
-          height: "50px",
+          width: "45px",
+          height: "45px",
           border: 'none',
           fontSize: "30x",
           color: "white",
@@ -98,21 +98,18 @@ export default class Main extends React.Component {
           float: "right"
         }}
         onClick={()=> this.add()}>
-          Add
+        <img style={{height: 45}} src="./gray-plus.svg"/>
         </button>
       </div>
       <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf", overflow: 'auto'}}>
-      <table style={{width: '100%'}}>
+      <table style={{width: '20%'}}>
           {miniUserDoc}
       </table>
     </div>
-<br/>
-<br/>
-    <br/>
     <div style={{fontFamily:'Lucida, sans-serif', fontSize:"40px", padding: 10, color: "#a28baf"}}>
     Shared Documents
     </div>
-    <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf"}}>
+    <div style={{display: 'inlineBlock', height: "100px", border:"solid 8px", margin: 10, borderColor: "#a28baf", overflow: 'auto'}}>
       <table>
           {miniSharedDoc}
       </table>
@@ -149,11 +146,11 @@ class MiniDoc extends React.Component {
 
   render(){
     return(
-      <tr style={{align: 'center'}}>
-        <th>
-          <button style={{backgroundColor: "white", height: 80, width: '90%', margin: 10, fontSize: '200%', border: 'solid 1px', borderColor: "black"}} onClick={() => this.onTitle()}> {this.props.title} </button>
-        </th>
-      </tr>
+      <th style={{align: 'center'}}>
+
+          <button style={{backgroundColor: "white", height: 80, width: '100%', margin: 10, fontSize: '50%', border: 'solid 1px', borderColor: "black"}} onClick={() => this.onTitle()}> {this.props.title} </button>
+
+      </th>
     )
   }
 }
