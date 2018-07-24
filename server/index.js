@@ -191,30 +191,33 @@ app.get('/getAllDocs', function(req, res){
   let userId = req.query.userId;
   let userDocs = [];
   let collabDocs = [];
-
-  Document.find({})
-  .then(results => {
-    results.forEach(eachDoc => {
-      if (eachDoc.owner.toString() === userId){
-        userDocs.push({
-          title: eachDoc.title,
-          docId: eachDoc._id
-        });
-      }
-      else if (eachDoc.collaboratorList.includes(userId)){
-        collabDocs.push({
-          title: eachDoc.title,
-          docId: eachDoc._id
-        });
-      }
+  User.findById(userId)
+  .then(thisUser=> {
+    Document.find({})
+    .then(results => {
+      results.forEach(eachDoc => {
+        if (eachDoc.owner.toString() === userId){
+          userDocs.push({
+            title: eachDoc.title,
+            docId: eachDoc._id
+          });
+        }
+        else if (eachDoc.collaboratorList.includes(thisUser.username)){
+          collabDocs.push({
+            title: eachDoc.title,
+            docId: eachDoc._id
+          });
+        }
+      })
+      res.json({
+        userDocs: userDocs,
+        collabDocs: collabDocs
+      })
+    }).catch(err=> {
+      res.json({"error": err});
     })
-    res.json({
-      userDocs: userDocs,
-      collabDocs: collabDocs
-    })
-  }).catch(err=> {
-    res.json({"error": err});
   })
+
 });
 
 
@@ -244,9 +247,7 @@ io.on("connection", (socket) => {
         //else multiple people
       }else if (clientArr.length > 1){
         socket.emit("contentRender", rooms[id])
-
       }
-
     })
   });
 
@@ -264,7 +265,6 @@ io.on("connection", (socket) => {
   socket.on("closeDoc", id => {
     socket.leave(id);
   })
-
 })
 
 server.listen(port);

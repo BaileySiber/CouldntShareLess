@@ -144,20 +144,22 @@ export default class History extends React.Component {
             readOnly={true}/>
         </div>
 
-        <div><button
-         type="button"
-         style={{
-         width: "100px",
-         height: "50px",
-         border: 'none',
-         fontSize: "20px",
-         color: "white",
-         backgroundColor: "#c6b8ce",
-         float: "right"
-       }}
-       onClick={()=> this.restore()}>
-         Restore
-       </button></div>
+        <div>
+          <button
+           type="button"
+           style={{
+             width: "100px",
+             height: "50px",
+             border: 'none',
+             fontSize: "20px",
+             color: "white",
+             backgroundColor: "#c6b8ce",
+             float: "right"
+           }}
+           onClick={()=> this.restore()}>
+             Restore
+          </button>
+        </div>
       </div>
     );
   }

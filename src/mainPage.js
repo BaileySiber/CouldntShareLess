@@ -15,9 +15,10 @@ export default class Main extends React.Component {
   }
 
  componentDidMount(){
+   console.log(this.props.userId);
     fetch("http://localhost:1337/getAllDocs?userId=" + this.props.userId)
-    .then((res) => res.json())
-    .then((json) => {
+    .then(res => res.json())
+    .then(json => {
       console.log('my docs', json);
       this.setState({
         myDocArray: json.userDocs,
@@ -67,7 +68,7 @@ export default class Main extends React.Component {
         userId={this.props.userId}
         />)
     }
-    console.log(this.state.sharedDocArray);
+    console.log('shared doc ', this.state.sharedDocArray);
     var miniSharedDoc = [];
     for(var i=0; i<this.state.sharedDocArray.length; i++){
       miniSharedDoc.push(<MiniDoc

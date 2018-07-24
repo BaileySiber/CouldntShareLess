@@ -193,7 +193,6 @@ export default class Doc extends React.Component {
           editorState: EditorState.createWithContent(convertFromRaw(content))
         })
       })
-
     })
     //when people are already on the doc, use socket
     //edit --> unnecessary because already fetched, but learned to set up!
