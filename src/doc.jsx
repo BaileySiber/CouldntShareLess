@@ -33,6 +33,33 @@ const customStyleMap = {
   black: {
     color: '#000000',
   },
+  arial: {
+    fontFamily: "Arial Black, Gadget, sans-serif"
+  },
+  helvetica: {
+    fontFamily: "Arial, Helvetica, sans-serif"
+  },
+  times: {
+    fontFamily: "Times New Roman, Times, serif"
+  },
+  courier: {
+    fontFamily: "Courier New, Courier, monospace"
+  },
+  verdana: {
+    fontFamily: "Verdana, Geneva, sans-serif"
+  },
+  georgia: {
+    fontFamily: "Georgia, serif"
+  },
+  comic: {
+    fontFamily: "Comic Sans MS, cursive, sans-serif"
+  },
+  trebuchet: {
+    fontFamily: "Trebuchet MS, Helvetica, sans-serif"
+  },
+  impact: {
+    fontFamily: "Impact, Charcoal, sans-serif"
+  },
 }
 
 const blockStyle = (block) => {
@@ -81,7 +108,7 @@ export default class Doc extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
-}
+  }
 
   exit() {
     this.props.navigate('main')
@@ -124,12 +151,15 @@ export default class Doc extends React.Component {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'UNDERLINE'));
   }
 
-
   toggleFontSize(fontSize) {
     const newEditorState = styles.fontSize.toggle(this.state.editorState, fontSize);
     this.onChange(newEditorState);
   }
 
+  // toggleFontStyle(e, fontStyle) {
+  //   const newEditorState = RichUtils.toggleInlineStyle(this.state.editorState, style)
+  //   this.onChange(newEditorState)
+  // }
 
   toggleColor(color) {
     const newEditorState = styles.color.toggle(this.state.editorState, color);
@@ -208,6 +238,9 @@ export default class Doc extends React.Component {
     const options = x => x.map(fontSize => {
       return <option key={fontSize} value={fontSize}>{fontSize}</option>;
     });
+    // const options2 = x => x.map(fontStyle => {
+    //   return <option key={fontFamily} value={fontStyle}>{fontStyle}</option>;
+    // });
 
     // console.log('*******', this.state);
 
@@ -218,16 +251,16 @@ export default class Doc extends React.Component {
           title={this.state.title}
           onLeftIconButtonClick={this.showEditors.bind(this)}
           iconElementRight={<button style={{
-  					color: 'white',
-  					border: 'none',
+            color: 'white',
+            border: 'none',
             marginRight: "10px",
             marginTop: "8px",
             backgroundColor: "#a28baf",
-  					fontFamily: "Times New Roman",
-  					textAlign: 'center',
-  					display: 'inline-block',
-  					fontSize: '20px',
-  				}}>
+            fontFamily: "Times New Roman",
+            textAlign: 'center',
+            display: 'inline-block',
+            fontSize: '20px',
+          }}>
           <img style={{height: 30}} src="./house.jpg"/></button>}
           onRightIconButtonClick={() => this.exit()}
           style={{backgroundColor: '#a28baf'}}
@@ -243,41 +276,44 @@ export default class Doc extends React.Component {
         <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
           <input placeholder="Untitled" style={{width: '50%', fontSize: '25px', border: 'none', textAlign: 'center'}}onChange={(e) => this.setState({title:e.target.value})}
             value={this.state.title} />
-        </div>
-        <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
-          <div style={{ flex: '1 0 25%', }}>
-            <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '35px' }}>
-              <ToolbarGroup>
-                <ToolbarSeparator />
-                <button onMouseDown={e => this.onBoldClick(e)}>B</button>
-                <button onMouseDown={e => this.onItalicClick(e)}>I</button>
-                <button onMouseDown={e => this.onUnderlineClick(e)}>U</button>
-                <ToolbarSeparator />
-              <select onChange={e => this.toggleFontSize(e.target.value)}>
-                {options(['12px', '24px', '36px', '50px', '72px'])}
-              </select>
-              <ToolbarSeparator />
-              <select onChange={e => this.toggleColor(e.target.value)}>
-                {options(['green', 'blue', 'red', 'purple', 'orange', 'black'])}
-              </select>
-              <ToolbarSeparator />
-                <button onMouseDown={e => this.toggleAlignment(e, "left")}> Left </button>
-                <button onMouseDown={e => this.toggleAlignment(e, "center")}> Center </button>
-                <button onMouseDown={e => this.toggleAlignment(e, "right")}> Right </button>
-                <ToolbarSeparator />
-                <button onMouseDown={e => this.toggleAlignment(e, "unordered-list-item")}>Unordered List</button>
-                <button onMouseDown={e => this.toggleAlignment(e, "ordered-list-item")}>Ordered List</button>
-              </ToolbarGroup>
-            </Toolbar>
           </div>
+          <div style={{ display: 'flex', padding: '15px', flexDirection: "column" }}>
+            <div style={{ flex: '1 0 25%', }}>
+              <Toolbar style={{ textAlign: 'center', backgroundColor: '#c6b8ce', height: '40px', width: "100%" }}>
+                <ToolbarGroup>
+                  {/* <select onChange={e => this.toggleFontStyle(e, fontStyle)}>
+                    {options2(['arial', 'comic', 'courier', 'georgia', 'helvetica', 'impact', 'times', 'trebuchet', 'verdana'])}
+                  </select> */}
+                  <ToolbarSeparator style={{height: '25px'}}/>
+                  <button onMouseDown={e => this.onBoldClick(e)}><img style={{height: "20px"}} src="bold.png"/></button>
+                  <button onMouseDown={e => this.onItalicClick(e)}><img style={{height: "18px", paddingTop: "1px", paddingBottom: "1px"}} src="italic.svg"/></button>
+                  <button onMouseDown={e => this.onUnderlineClick(e)}><img style={{height: "18px", marginTop: "2px"}} src="underline.png"/></button>
+                  <ToolbarSeparator style={{height: '25px'}}/>
+                  <select style={{marginLeft: "20px"}} onChange={e => this.toggleFontSize(e.target.value)}>
+                    {options(['12px', '24px', '36px', '50px', '72px'])}
+                  </select>
+                  <ToolbarSeparator style={{height: '25px'}}/>
+                  <select style={{marginLeft: "20px"}} onChange={e => this.toggleColor(e.target.value)}>
+                    {options(['green', 'blue', 'red', 'purple', 'orange', 'black'])}
+                  </select>
+                  <ToolbarSeparator style={{height: '25px'}}/>
+                  <button onMouseDown={e => this.toggleAlignment(e, "left")}> <img style={{height: "18px", marginTop: "2px"}} src="left.png"/> </button>
+                  <button onMouseDown={e => this.toggleAlignment(e, "center")}> <img style={{height: "18px", marginTop: "2px"}} src="center2.png"/> </button>
+                  <button onMouseDown={e => this.toggleAlignment(e, "right")}> <img style={{height: "18px", marginTop: "2px"}} src="right.png"/> </button>
+                  <ToolbarSeparator style={{height: '25px'}}/>
+                  <button onMouseDown={e => this.toggleAlignment(e, "unordered-list-item")}><img style={{height: "18px", marginTop: "2px"}} src="bullets.png"/></button>
+                  <button onMouseDown={e => this.toggleAlignment(e, "ordered-list-item")}><img style={{height:"18px", marginTop: "2px"}} src="numbers.png"/></button>
+                </ToolbarGroup>
+              </Toolbar>
+            </div>
 
-          <div style={{
-            border: 'solid 1px',
-            borderRadius: '5px',
-            padding: '5px',
-            margin: '10px',
-            height: '50vh'
-          }}>
+            <div style={{
+              border: 'solid 1px',
+              borderRadius: '5px',
+              padding: '5px',
+              margin: '10px',
+              height: '50vh'
+            }}>
             <Editor
               placeholder="Hello... write here!!"
               customStyleFn={customStyleFn}
@@ -287,7 +323,7 @@ export default class Doc extends React.Component {
               blockStyleFn={blockStyle}
             />
           </div>
-        <br/>
+          <br/>
           <button onClick={this.saveDoc.bind(this)} style={{
             backgroundColor: '#a28baf',
             paddingTop: '10px',
